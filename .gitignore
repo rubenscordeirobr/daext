@@ -1,0 +1,7 @@
+# Node / build
+node_modules/
+dist/
+.env
+.vscode/
+
+.arquivos
