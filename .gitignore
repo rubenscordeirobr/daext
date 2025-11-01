@@ -1,7 +1,85 @@
 # Node / build
 node_modules/
 dist/
-.env
-.vscode/
+build/
+out/
 
-.arquivos
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editors / IDEs
+.vscode/
+.idea/
+.history/
+
+# TypeScript
+*.tsbuildinfo
+
+# Cache
+.cache/
+.parcel-cache/
+.vite/
+
+# Testing / coverage
+coverage/
+.nyc_output/
+
+# Build/test artifacts
+*.tgz
+*.zip
+
+# C# / Visual Studio
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.csproj.user
+*.sln.docstates
+*.sln
+*.csproj
+*.dll
+*.exe
+*.pdb
+*.obj
+
+# Yarn / pnpm
+.pnp.cjs
+.pnp.loader.mjs
+.yarn/*
+yarn-error.log
+
+# Misc
+.vagrant/
+.cache-loader
+.eslintcache
+
+# WordPress
+wp/wp-content/uploads/
+wp/scrects.txt
+
+# Local development files
+.env.test
+.env.development.local
+.env.production.local
+
+# Ignore editor swap/temp files
+*~
+#*#
+.~lock.*
+.work-files
+.temp
