@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Allow: /docentes
+Allow: /pesquisas
+Allow: /noticias
+Allow: /contato
+
+Sitemap: https://daext.gp.utfpr.edu.br/sitemap.xml
