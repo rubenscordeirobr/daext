@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { getAssetPath } from '../../utils/assetPath';
 
@@ -7,6 +7,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const location = useLocation();
+  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const navigation = [
     { name: 'Início', href: '/' },
@@ -40,11 +41,19 @@ const Header = () => {
   };
 
   const handleMouseEnter = (itemName: string) => {
+    // Clear any pending close timeout
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
     setActiveDropdown(itemName);
   };
 
   const handleMouseLeave = () => {
-    setActiveDropdown(null);
+    // Add a delay before closing the dropdown
+    closeTimeoutRef.current = setTimeout(() => {
+      setActiveDropdown(null);
+    }, 300); // 300ms delay allows smooth transition to submenu
   };
 
   return (
@@ -91,7 +100,11 @@ const Header = () => {
 
                 {/* Dropdown Menu */}
                 {item.submenu && activeDropdown === item.name && (
-                  <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-50">
+                  <div 
+                    className="absolute top-full left-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-50"
+                    onMouseEnter={() => handleMouseEnter(item.name)}
+                    onMouseLeave={handleMouseLeave}
+                  >
                     {item.submenu.map((subItem) => (
                       <Link
                         key={subItem.name}
