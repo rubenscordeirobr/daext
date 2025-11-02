@@ -28,15 +28,16 @@ O site visa divulgar as atividades de **ensino, pesquisa e extensão** desenvolv
 ## 🎨 Estilo Visual
 - **Identidade UTFPR:** cores oficiais (Amarelo #FFC72C, Preto #000000 e Branco #FFFFFF)  
 - **Layout:** acadêmico, limpo e responsivo  
-- **Tipografia sugerida:** Montserrat (títulos) e Open Sans (texto)  
+- **Tipografia sugerida:** Inter peso 700 e Inter peso 600
 
 ---
 
 ## 🧩 Tecnologias 
 - HTML5 / CSS3 / JavaScript (versão estática inicial)  
 - Responsividade baseada em Grid/Flexbox  
-
----
+- React
+- Tailwind CSS
+ 
 
 ## 📍 Contato
 Departamento Acadêmico de Exatas – UTFPR Guarapuava  
