@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from 'react';
+import { getAssetPath } from '../../../utils/assetPath';
 
 interface Pesquisa {
   titulo: string;
@@ -27,7 +28,7 @@ const PesquisasContent = () => {
   useEffect(() => {
     const fetchPesquisas = async () => {
       try {
-        const response = await fetch('/data/pesquisas.json');
+        const response = await fetch(getAssetPath('data/pesquisas.json'));
         const data = await response.json();
         setPesquisas(data);
       } catch (error) {
@@ -101,7 +102,7 @@ const PesquisasContent = () => {
             <div key={index} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group">
               <div className="relative h-48 overflow-hidden">
                 <img
-                  src={pesquisa.imagem}
+                  src={getAssetPath(pesquisa.imagem)}
                   alt={pesquisa.titulo}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />

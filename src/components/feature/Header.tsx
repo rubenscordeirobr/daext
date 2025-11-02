@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { getAssetPath } from '../../utils/assetPath';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -53,7 +54,7 @@ const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
             <img 
-              src="assets/images/utfpr-logo.png"
+              src={getAssetPath("assets/images/utfpr-logo.png")}
               alt="UTFPR Logo" 
               className="h-12 w-auto"
             />

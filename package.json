@@ -17,6 +17,7 @@
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react-swc": "^3.10.2",
     "autoprefixer": "^10.4.21",
+    "cross-env": "^10.1.0",
     "eslint": "^9.30.1",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
@@ -33,8 +34,13 @@
   "private": true,
   "scripts": {
     "build": "vite build",
+    "build:relative": "cross-env BASE_PATH=./ vite build",
+    "build:subdirectory": "cross-env BASE_PATH=/daext/ vite build",
+    "build:github-pages": "cross-env BASE_PATH=/daext/ vite build",
+    "deploy": "node deploy.js",
     "dev": "vite",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "preview:relative": "cross-env BASE_PATH=./ vite build && vite preview"
   },
   "type": "module",
   "version": "0.0.0"

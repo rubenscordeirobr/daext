@@ -8,7 +8,7 @@ const NewsSection = () => {
       excerpt: 'Aluno do programa de pós-graduação apresenta pesquisa sobre aplicações de equações diferenciais em fenômenos naturais.',
       date: '15 de Janeiro, 2024',
       category: 'Matemática',
-      image: 'assets/images/notificias/defesa-dissertacao.jpg',
+      image: 'assets/images/noticiais/defesa-dissertacao.jpg',
       categoryColor: 'bg-blue-100 text-blue-800'
     },
     {
@@ -16,7 +16,7 @@ const NewsSection = () => {
       excerpt: 'Pesquisa sobre propriedades ópticas de nanomateriais é aceita em periódico de alto impacto científico.',
       date: '10 de Janeiro, 2024',
       category: 'Física',
-      image: 'assets/images/notificias/publicacao-revista.jpg',
+      image: 'assets/images/noticiais/publicacao-revista.jpg',
       categoryColor: 'bg-green-100 text-green-800'
     },
     {
@@ -24,7 +24,7 @@ const NewsSection = () => {
       excerpt: 'Docentes e alunos levam experimentos químicos para escolas públicas da região de Guarapuava.',
       date: '8 de Janeiro, 2024',
       category: 'Química',
-      image: 'assets/images/notificias/projeto-extensao.jpg',
+      image: 'assets/images/noticiais/projeto-extensao.jpg',
       categoryColor: 'bg-purple-100 text-purple-800'
     }
   ];

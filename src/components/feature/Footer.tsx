@@ -1,4 +1,7 @@
 
+import { getAssetPath } from '../../utils/assetPath';
+import { Link } from 'react-router-dom';
+
 const Footer = () => {
   return (
     <footer className="bg-black text-white">
@@ -8,7 +11,7 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
               <img
-                src="assets/images/utfpr-logo.png"
+                src={getAssetPath("assets/images/utfpr-logo.png")}
                 alt="UTFPR Logo"
                 className="h-10 w-auto"
               />
@@ -26,10 +29,10 @@ const Footer = () => {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">Links Rápidos</h4>
             <ul className="space-y-2">
-              <li><a href="/docentes" className="text-gray-300 hover:text-[#ffbf00] transition-colors">Docentes</a></li>
-              <li><a href="/pesquisas" className="text-gray-300 hover:text-[#ffbf00] transition-colors">Pesquisas</a></li>
-              <li><a href="/noticias" className="text-gray-300 hover:text-[#ffbf00] transition-colors">Notícias</a></li>
-              <li><a href="/contato" className="text-gray-300 hover:text-[#ffbf00] transition-colors">Contato</a></li>
+              <li><Link to="/docentes" className="text-gray-300 hover:text-[#ffbf00] transition-colors">Docentes</Link></li>
+              <li><Link to="/pesquisas" className="text-gray-300 hover:text-[#ffbf00] transition-colors">Pesquisas</Link></li>
+              <li><Link to="/noticias" className="text-gray-300 hover:text-[#ffbf00] transition-colors">Notícias</Link></li>
+              <li><Link to="/contato" className="text-gray-300 hover:text-[#ffbf00] transition-colors">Contato</Link></li>
             </ul>
           </div>
 

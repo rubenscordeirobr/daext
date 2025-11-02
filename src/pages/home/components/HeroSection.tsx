@@ -1,12 +1,13 @@
 
 import { Link } from 'react-router-dom';
+import { getAssetPath } from '../../../utils/assetPath';
 
 const HeroSection = () => {
   return (
     <section 
       className="relative min-h-screen flex items-center justify-center bg-cover bg-center"
       style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('assets/images/hero-bg.jpg')`
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('${getAssetPath('assets/images/hero-bg.jpg')}')`
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

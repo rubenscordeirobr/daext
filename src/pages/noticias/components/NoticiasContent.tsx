@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from 'react';
+import { getAssetPath } from '../../../utils/assetPath';
 
 interface Noticia {
   titulo: string;
@@ -29,7 +30,7 @@ const NoticiasContent = () => {
   useEffect(() => {
     const fetchNoticias = async () => {
       try {
-        const response = await fetch('/data/noticias.json');
+        const response = await fetch(getAssetPath('data/noticias.json'));
         const data = await response.json();
         setNoticias(data);
       } catch (error) {
@@ -107,7 +108,7 @@ const NoticiasContent = () => {
             >
               <div className="relative h-48 overflow-hidden">
                 <img
-                  src={noticia.imagem}
+                  src={getAssetPath(noticia.imagem)}
                   alt={noticia.titulo}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
@@ -160,7 +161,7 @@ const NoticiasContent = () => {
             <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden">
               <div className="relative flex-shrink-0">
                 <img
-                  src={selectedNews.imagem}
+                  src={getAssetPath(selectedNews.imagem)}
                   alt={selectedNews.titulo}
                   className="w-full h-64 object-cover"
                 />

@@ -3,12 +3,19 @@ import react from '@vitejs/plugin-react-swc'
 import { resolve } from 'node:path'
 import AutoImport from 'unplugin-auto-import/vite'
 
+// Smart base path configuration
 const base = process.env.BASE_PATH || '/'
-const isPreview = process.env.IS_PREVIEW  ? true : false;
+const isPreview = process.env.IS_PREVIEW ? true : false
+
+// Normalize base path
+const normalizedBase = base === './' ? './' : base.endsWith('/') ? base : `${base}/`
+
+console.log(`🚀 Building with base path: ${normalizedBase}`)
+
 // https://vite.dev/config/
 export default defineConfig({
   define: {
-   __BASE_PATH__: JSON.stringify(base),
+   __BASE_PATH__: JSON.stringify(normalizedBase),
    __IS_PREVIEW__: JSON.stringify(isPreview)
   },
   plugins: [react(),
@@ -65,7 +72,7 @@ export default defineConfig({
       dts: true,
     }),
   ],
-  base,
+  base: normalizedBase,
   build: {
     sourcemap: true,
     outDir: 'out',
