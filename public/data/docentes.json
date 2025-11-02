@@ -1,0 +1,137 @@
+[
+  {
+    "nome": "Bruno Leonardo Macedo Ferreira",
+    "area": "Matemática",
+    "titulacao": "Doutor em Matemática",
+    "especializacao": "Álgebra, álgebras não associativas e caracterização de aplicações em estruturas associativas e não associativas",
+    "lattes": "http://lattes.cnpq.br/2604194329814838",
+    "orcid": "",
+    "foto": "/assets/images/docentes/bruno-ferreira.jpg"
+  },
+  {
+    "nome": "Ruth Nascimento Ferreira",
+    "area": "Matemática",
+    "titulacao": "Doutora em Matemática",
+    "especializacao": "Álgebra (anéis e álgebras), derivação de Jordan e estruturas associativas e não associativas",
+    "lattes": "http://lattes.cnpq.br/9126621778438767",
+    "orcid": "",
+    "foto": "/assets/images/no-image-avalaible.png"
+  },
+  {
+    "nome": "Juliano dos Santos Gonschorowski",
+    "area": "Matemática",
+    "titulacao": "Doutor em Matemática Aplicada",
+    "especializacao": "Sistemas dinâmicos, otimização ergódica e dinâmica simbólica",
+    "lattes": "http://lattes.cnpq.br/5333001903467068",
+    "orcid": "",
+    "foto": "/assets/images/no-image-avalaible.png"
+  },
+  {
+    "nome": "Michel Teston Semensato",
+    "area": "Matemática",
+    "titulacao": "Doutor em Ensino de Ciência e Tecnologia",
+    "especializacao": "Ensino de matemática e materiais didáticos para nivelamento",
+    "lattes": "http://lattes.cnpq.br/8104299456383213",
+    "orcid": "",
+    "foto": "/assets/images/no-image-avalaible.png"
+  },
+  {
+    "nome": "Flávia Konowalenko",
+    "area": "Matemática",
+    "titulacao": "Doutora em Engenharia Elétrica e Informática Industrial",
+    "especializacao": "Métodos numéricos e Pesquisa Operacional aplicados a otimização, problemas de rotas e sequenciamento",
+    "lattes": "http://lattes.cnpq.br/2890585993936615",
+    "orcid": "",
+    "foto": "/assets/images/no-image-avalaible.png"
+  },
+  {
+    "nome": "Thalita Monteiro Obal",
+    "area": "Matemática",
+    "titulacao": "Doutora em Métodos Numéricos em Engenharia",
+    "especializacao": "Pesquisa Operacional e otimização aplicada (manutenção, civil, saúde e sustentabilidade)",
+    "lattes": "http://lattes.cnpq.br/7574246674522809",
+    "orcid": "",
+    "foto": "/assets/images/no-image-avalaible.png"
+  },
+  {
+    "nome": "Thiago Henrique de Freitas",
+    "area": "Matemática",
+    "titulacao": "Doutor em Matemática",
+    "especializacao": "Álgebra Comutativa, Álgebra Homológica e conexões com Geometria Algébrica",
+    "lattes": "http://lattes.cnpq.br/6423134946889272",
+    "orcid": "",
+    "foto": "/assets/images/no-image-avalaible.png"
+  },
+  {
+    "nome": "Alex Sandro de Castilho",
+    "area": "Matemática",
+    "titulacao": "Doutor em Ensino de Ciência e Tecnologia",
+    "especializacao": "Matemática Aplicada e ensino de Cálculo, TDIC, objetos de aprendizagem e feedbacks para autorregulação",
+    "lattes": "http://lattes.cnpq.br/0971381050120580",
+    "orcid": "",
+    "foto": "/assets/images/no-image-avalaible.png"
+  },
+  {
+    "nome": "Aura Rosa Belzarez Guedez",
+    "area": "Matemática",
+    "titulacao": "Doutora em Matemática",
+    "especializacao": "Geometria e Topologia, geometria das geodésicas e conexões com C* álgebras",
+    "lattes": "http://lattes.cnpq.br/7505752300228002",
+    "orcid": "",
+    "foto": "/assets/images/no-image-avalaible.png"
+  },
+  {
+    "nome": "Aline Milan Farias",
+    "area": "Física",
+    "titulacao": "Doutora em Física",
+    "especializacao": "Propriedades Ópticas e Espectroscópicas da Matéria Condensada, interferometria óptica e luminescência",
+    "lattes": "http://lattes.cnpq.br/5455515779398382",
+    "orcid": "",
+    "foto": "/assets/images/no-image-avalaible.png"
+  },
+  {
+    "nome": "Ana Lucia Ferreira",
+    "area": "Física",
+    "titulacao": "Doutora em Física",
+    "especializacao": "Propriedades Ópticas e Magnéticas de Materiais, espectroscopia Raman, luminescência e óxidos",
+    "lattes": "http://lattes.cnpq.br/0336173880688391",
+    "orcid": "",
+    "foto": "/assets/images/no-image-avalaible.png"
+  },
+  {
+    "nome": "Antonio Carlos Amaro de Faria Júnior",
+    "area": "Física",
+    "titulacao": "Doutor em Física",
+    "especializacao": "Física Teórica e da Matéria Condensada, sólitons, equações mestras lineares e aplicações computacionais",
+    "lattes": "http://lattes.cnpq.br/0406426949299933",
+    "orcid": "",
+    "foto": "/assets/images/no-image-avalaible.png"
+  },
+  {
+    "nome": "Diogo Zampieri Montanher",
+    "area": "Física",
+    "titulacao": "Doutor em Física",
+    "especializacao": "Física da Matéria Condensada, dispositivos piezoelétricos, fotoelétricos e multiferroicos",
+    "lattes": "http://lattes.cnpq.br/1901328185072986",
+    "orcid": "",
+    "foto": "/assets/images/no-image-avalaible.png"
+  },
+  {
+    "nome": "Marilei de Fátima Oliveira",
+    "area": "Química",
+    "titulacao": "Doutora em Química",
+    "especializacao": "Físico Química, eletroquímica, tratamento de superfícies metálicas, corrosão e processos nanocerâmicos",
+    "lattes": "http://lattes.cnpq.br/4133384254474257",
+    "orcid": "",
+    "foto": "/assets/images/no-image-avalaible.png"
+  },
+  {
+    "nome": "Rolf de Campos Intema",
+    "area": "Química",
+    "titulacao": "Doutor em Ciências, Química",
+    "especializacao": "Eletroquímica e físico química inorgânica, filmes automontados, eletrodos modificados e sensores eletroquímicos",
+    "lattes": "http://lattes.cnpq.br/0008747983677097",
+    "orcid": "",
+    "foto": "/assets/images/no-image-avalaible.png"
+  }
+]

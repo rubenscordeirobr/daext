@@ -1,0 +1,92 @@
+[
+  {
+    "titulo": "Modelagem Matemática de Sistemas Dinâmicos Complexos",
+    "area": "matematica",
+    "responsavel": "Dr. Carlos Eduardo Silva",
+    "colaboradores": ["Maria Santos (Mestranda)", "João Oliveira (IC)"],
+    "resumo": "Desenvolvimento de modelos matemáticos para análise de sistemas dinâmicos não-lineares com aplicações em biologia e engenharia. O projeto visa criar ferramentas computacionais para simulação e previsão de comportamentos complexos.",
+    "status": "Em andamento",
+    "statusColor": "bg-green-100 text-green-800",
+    "imagem": "assets/images/pesquisas/01.jpg"
+  },
+  {
+    "titulo": "Educação Matemática e Tecnologias Digitais",
+    "area": "matematica",
+    "responsavel": "Dra. Maria Fernanda Santos",
+    "colaboradores": ["Ana Costa (Doutoranda)", "Pedro Silva (IC)", "Carla Mendes (IC)"],
+    "resumo": "Investigação sobre o uso de tecnologias digitais no ensino de matemática, desenvolvendo metodologias inovadoras para melhorar o aprendizado de conceitos matemáticos em diferentes níveis educacionais.",
+    "status": "Em andamento",
+    "statusColor": "bg-green-100 text-green-800",
+    "imagem": "assets/images/pesquisas/02.jpg"
+  },
+  {
+    "titulo": "Teoria dos Números e Criptografia",
+    "area": "matematica",
+    "responsavel": "Dr. João Roberto Lima",
+    "colaboradores": ["Lucas Ferreira (Mestrando)", "Sofia Rodrigues (IC)"],
+    "resumo": "Estudo de propriedades aritméticas de números inteiros com aplicações em criptografia moderna. Desenvolvimento de algoritmos seguros para proteção de dados digitais.",
+    "status": "Em andamento",
+    "statusColor": "bg-green-100 text-green-800",
+    "imagem": "hassets/images/pesquisas/03.jpg"
+  },
+  {
+    "titulo": "Propriedades Ópticas de Nanomateriais",
+    "area": "fisica",
+    "responsavel": "Dr. Anderson Pereira Costa",
+    "colaboradores": ["Fernanda Lima (Doutoranda)", "Roberto Santos (Mestrando)", "Julia Alves (IC)"],
+    "resumo": "Investigação das propriedades ópticas de materiais nanoestruturados para aplicações em dispositivos fotônicos. Síntese e caracterização de nanopartículas com propriedades ópticas controladas.",
+    "status": "Em andamento",
+    "statusColor": "bg-green-100 text-green-800",
+    "imagem": "assets/images/pesquisas/03.jpg"
+  },
+  {
+    "titulo": "Física Quântica Computacional",
+    "area": "fisica",
+    "responsavel": "Dra. Luciana Oliveira Rocha",
+    "colaboradores": ["Marcos Pereira (Doutorando)", "Camila Santos (Mestranda)"],
+    "resumo": "Desenvolvimento de algoritmos quânticos para resolução de problemas computacionais complexos. Estudo de sistemas quânticos para implementação em computadores quânticos.",
+    "status": "Em andamento",
+    "statusColor": "bg-green-100 text-green-800",
+    "imagem": "assets/images/pesquisas/03.jpg"
+  },
+  {
+    "titulo": "Materiais Supercondutores de Alta Temperatura",
+    "area": "fisica",
+    "responsavel": "Dr. Rafael Mendes Alves",
+    "colaboradores": ["Beatriz Costa (Mestranda)", "Diego Oliveira (IC)", "Larissa Ferreira (IC)"],
+    "resumo": "Síntese e caracterização de materiais supercondutores que operam em temperaturas relativamente altas. Investigação de mecanismos de supercondutividade para aplicações tecnológicas.",
+    "status": "Concluído",
+    "statusColor": "bg-blue-100 text-blue-800",
+    "imagem": "assets/images/pesquisas/04.jpg"
+  },
+  {
+    "titulo": "Síntese de Compostos Bioativos Naturais",
+    "area": "quimica",
+    "responsavel": "Dra. Patricia Campos Ferreira",
+    "colaboradores": ["Gabriel Santos (Doutorando)", "Isabela Lima (Mestranda)", "Rafael Costa (IC)"],
+    "resumo": "Desenvolvimento de rotas sintéticas para produção de compostos bioativos encontrados na natureza. Aplicações em farmacologia e desenvolvimento de novos medicamentos.",
+    "status": "Em andamento",
+    "statusColor": "bg-green-100 text-green-800",
+    "imagem": "assets/images/pesquisas/05.jpg"
+  },
+  {
+    "titulo": "Espectroscopia Avançada para Análise Ambiental",
+    "area": "quimica",
+    "responsavel": "Dr. Marcos Antonio Souza",
+    "colaboradores": ["Natália Rodrigues (Mestranda)", "Thiago Alves (IC)", "Priscila Santos (IC)"],
+    "resumo": "Desenvolvimento de métodos espectroscópicos para detecção e quantificação de poluentes ambientais. Aplicação de técnicas analíticas avançadas em monitoramento ambiental.",
+    "status": "Em andamento",
+    "statusColor": "bg-green-100 text-green-800",
+    "imagem": "assets/images/pesquisas/06.jpg"
+  },
+  {
+    "titulo": "Catálise Heterogênea para Energia Limpa",
+    "area": "quimica",
+    "responsavel": "Dra. Cristina Barbosa Nunes",
+    "colaboradores": ["Eduardo Ferreira (Doutorando)", "Vanessa Lima (Mestranda)"],
+    "resumo": "Desenvolvimento de catalisadores heterogêneos para produção de energia limpa. Estudo de reações catalíticas para conversão de biomassa e produção de hidrogênio.",
+    "status": "Em andamento",
+    "statusColor": "bg-green-100 text-green-800",
+    "imagem": "assets/images/pesquisas/07.jpg"
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "titulo": "Professor da UTFPR é nomeado Editor Chefe de periódico científico internacional",
+    "categoria": "reconhecimentos",
+    "data": "2024",
+    "resumo": "O professor Bruno Leonardo Macedo Ferreira, do Departamento de Ciências Exatas da UTFPR Guarapuava, foi nomeado Editor Chefe do Journal of Non Associative Algebra and Applications (JoNAA), periódico internacional de acesso aberto.",
+    "conteudo": "O professor Bruno Leonardo Macedo Ferreira, do Departamento de Ciências Exatas do Campus Guarapuava da Universidade Tecnológica Federal do Paraná, foi nomeado Editor Chefe do periódico internacional Journal of Non Associative Algebra and Applications (JoNAA). O periódico é de acesso aberto e é voltado para a publicação de pesquisas originais e de alta qualidade na área de álgebras não associativas e de suas aplicações, incluindo álgebras de Jordan, álgebras alternativas e outras estruturas que aparecem em matemática pura e em áreas aplicadas. As álgebras não associativas formam um campo em crescimento, com relações tanto com teoria de anéis e de módulos quanto com física teórica e com problemas de geometria. A escolha de um docente da UTFPR para liderar um periódico internacional nessa área demonstra o reconhecimento da produção acadêmica do professor Bruno, que tem publicado em revistas de prestígio, orientado estudantes de pós graduação e estabelecido parcerias com pesquisadores de diferentes países. A indicação também fortalece o processo de internacionalização da UTFPR, pois insere a instituição de forma mais direta na comunidade científica global.",
+    "imagem": "assets/images/noticiais/prof-bruno-ime-usp-nov2024/capa.jpg",
+    "categoryColor": "bg-orange-100 text-orange-800"
+  },
+  {
+    "titulo": "Doutorando da USP defende tese sobre equações funcionais em estruturas não associativas",
+    "categoria": "defesas",
+    "data": "21 de Fevereiro, 2025",
+    "resumo": "Daniel Eiti Nishida Kawai defendeu no IME USP a tese \"Equações funcionais em estruturas não associativas, resultados sobre aditividade de funções\", com orientação de Henrique Guzzo Junior e coorientação do professor Bruno Leonardo Macedo Ferreira, da UTFPR Guarapuava.",
+    "conteudo": "No dia 21 de fevereiro de 2025, o pesquisador Daniel Eiti Nishida Kawai defendeu sua tese de doutorado no Instituto de Matemática e Estatística da Universidade de São Paulo (IME USP). A tese teve como título \"Equações funcionais em estruturas não associativas, resultados sobre aditividade de funções\" e foi apresentada em formato híbrido, com parte da banca presente na sala B 144 do IME USP e parte participando por videoconferência. O trabalho foi orientado pelo professor Henrique Guzzo Junior e teve participação do professor Bruno Leonardo Macedo Ferreira, da UTFPR Campus Guarapuava, que vem atuando de forma contínua na linha de pesquisa em álgebras não associativas. A tese apresentou contribuições originais para a teoria de funções aditivas e multiplicativas em contextos algébricos mais gerais, ampliando resultados que são bem conhecidos para estruturas associativas. Durante o doutorado, Daniel desenvolveu boa parte da pesquisa em colaboração direta com o professor Bruno, o que evidencia a integração entre a UTFPR Guarapuava e o IME USP nessa área de pesquisa. A banca examinadora foi composta por docentes de diversas instituições, incluindo UTFPR, USP, UFU, UFPR e Universidade de Coimbra (Portugal).",
+    "imagem": "assets/images/noticias/defesa-daniel-kawai-fev2025/capa.jpg",
+    "categoryColor": "bg-blue-100 text-blue-800"
+  },
+  {
+    "titulo": "Professor da UTFPR é nomeado Editor-Chefe de periódico científico internacional",
+    "categoria": "publicacoes",
+    "data": "10 de Janeiro, 2025",
+    "resumo": "O professor Bruno Leonardo Macedo Ferreira, da UTFPR – Guarapuava, foi nomeado Editor-Chefe do periódico internacional Journal of Non-Associative Algebra and Applications (JoNAA), dedicado a pesquisas sobre álgebras não associativas. A nomeação reconhece sua trajetória acadêmica e fortalece a internacionalização da UTFPR no cenário científico global..",
+    "conteudo": "Trata-se de um campo em franco crescimento, com conexões profundas tanto com a matemática pura quanto com áreas aplicadas, como física teórica, ciência da computação e análise funcional.\n\nA nomeação do professor Bruno Ferreira como Editor-Chefe representa um reconhecimento internacional de sua trajetória acadêmica e de suas contribuições científicas. Ao longo de sua carreira, o docente tem publicado artigos em periódicos de prestígio, orientado estudantes de pós-graduação e estabelecido colaborações com pesquisadores de diversos países. Sua atuação à frente do JoNAA reforça o papel da UTFPR no cenário científico global e contribui para a consolidação da internacionalização da instituição.\n\nO periódico já está em funcionamento e recebe submissões de artigos de pesquisadores de todo o mundo. Mais informações podem ser encontradas no site oficial: https://bscipub.com/jonaa/index",
+    "imagem": "assets/images/noticias/prof-bruno-nomeado-editor-chefe-jan2025/capa.jpg",
+    "categoryColor": "bg-green-100 text-green-800"
+  } 
+]
