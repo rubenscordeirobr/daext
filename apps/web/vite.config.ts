@@ -10,7 +10,7 @@ const isPreview = process.env.IS_PREVIEW ? true : false
 // Normalize base path
 const normalizedBase = base === './' ? './' : base.endsWith('/') ? base : `${base}/`
 
-console.log(`🚀 Building with base path: ${normalizedBase}`)
+console.log(`[web] building with base path: ${normalizedBase}`)
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -69,7 +69,7 @@ export default defineConfig({
           ]
         }
       ],
-      dts: true,
+      dts: resolve(__dirname, './src/auto-imports.d.ts'),
     }),
   ],
   base: normalizedBase,
@@ -79,7 +79,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src')
+      '@': resolve(__dirname, './src'),
+      '@ui': resolve(__dirname, '../../packages/ui/src')
     }
   },
   server: {

@@ -1,0 +1,11 @@
+{
+  "extends": "../../packages/tsconfig/node.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "vite.config.ts",
+    "postcss.config.ts",
+    "tailwind.config.ts"
+  ]
+}
