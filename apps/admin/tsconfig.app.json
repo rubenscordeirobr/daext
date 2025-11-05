@@ -1,0 +1,12 @@
+{
+  "extends": "../../packages/tsconfig/react.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["vite/client"],
+    "paths": {
+      "@ui": ["../../packages/ui/src"],
+      "@ui/*": ["../../packages/ui/src/*"]
+    }
+  },
+  "include": ["src"]
+}

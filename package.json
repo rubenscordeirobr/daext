@@ -1,47 +1,24 @@
 {
-  "dependencies": {
-    "@stripe/react-stripe-js": "4.0.2",
-    "@supabase/supabase-js": "2.57.4",
-    "firebase": "12.0.0",
-    "i18next": "25.4.1",
-    "i18next-browser-languagedetector": "^8.2.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-i18next": "^15.6.0",
-    "react-router-dom": "^7.6.3",
-    "recharts": "3.2.0"
+  "name": "daext-workspace",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@9.12.3",
+  "scripts": {
+    "dev": "concurrently \"pnpm -C apps/web dev\" \"pnpm -C apps/admin dev\" \"pnpm -C apps/api dev\"",
+    "dev:web": "pnpm -C apps/web dev",
+    "dev:admin": "pnpm -C apps/admin dev",
+    "dev:api": "pnpm -C apps/api dev",
+    "build": "pnpm -C apps/web build && pnpm -C apps/admin build && pnpm -C apps/api build",
+    "build:web": "pnpm -C apps/web build",
+    "build:admin": "pnpm -C apps/admin build",
+    "build:api": "pnpm -C apps/api build",
+    "lint": "pnpm -r run lint",
+    "typecheck": "pnpm -r run typecheck",
+    "test": "pnpm -r run test --if-present",
+    "clean": "rimraf node_modules && pnpm -r exec rimraf node_modules dist build out .turbo"
   },
   "devDependencies": {
-    "@eslint/js": "^9.30.1",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "@vitejs/plugin-react-swc": "^3.10.2",
-    "autoprefixer": "^10.4.21",
-    "cross-env": "^10.1.0",
-    "eslint": "^9.30.1",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
-    "globals": "^16.3.0",
-    "postcss": "^8.5.6",
-    "source-map": "^0.7.6",
-    "tailwindcss": "^3.4.17",
-    "typescript": "~5.8.3",
-    "typescript-eslint": "^8.35.1",
-    "unplugin-auto-import": "^19.3.0",
-    "vite": "^7.0.3"
-  },
-  "name": "react",
-  "private": true,
-  "scripts": {
-    "build": "vite build",
-    "build:relative": "cross-env BASE_PATH=./ vite build",
-    "build:subdirectory": "cross-env BASE_PATH=/daext/ vite build",
-    "build:github-pages": "cross-env BASE_PATH=/daext/ vite build",
-    "deploy": "node deploy.js",
-    "dev": "vite",
-    "preview": "vite preview",
-    "preview:relative": "cross-env BASE_PATH=./ vite build && vite preview"
-  },
-  "type": "module",
-  "version": "0.0.0"
+    "concurrently": "^8.2.2",
+    "rimraf": "^6.1.0"
+  }
 }
