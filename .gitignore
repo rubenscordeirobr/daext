@@ -83,3 +83,12 @@ wp/scrects.txt
 .~lock.*
 .work-files
 .temp
+*.bkp
+
+# Workspace
+apps/*/node_modules/
+apps/*/dist/
+apps/*/out/
+packages/*/dist/
+.turbo/
+.pnpm-store/
