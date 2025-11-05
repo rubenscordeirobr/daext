@@ -1,0 +1,165 @@
+[
+    {
+        "id": "research-modelagem-matematica-de-sistemas-dinamicos-complexos",
+        "title": "Modelagem Matemática de Sistemas Dinâmicos Complexos",
+        "summary": "Desenvolvimento de modelos matemáticos para análise de sistemas dinâmicos não-lineares com aplicações em biologia e engenharia. O projeto visa criar ferramentas computacionais para simulação e previsão de comportamentos complexos.",
+        "description": "Desenvolvimento de modelos matemáticos para análise de sistemas dinâmicos não-lineares com aplicações em biologia e engenharia. O projeto visa criar ferramentas computacionais para simulação e previsão de comportamentos complexos.",
+        "status": "active",
+        "leadProfessorId": "prof-dr-carlos-eduardo-silva",
+        "team": ["member-maria-santos", "member-joao-oliveira"],
+        "keywords": [
+            "Matematica",
+            "Dr. Carlos Eduardo Silva",
+            "Desenvolvimento de modelos matemáticos para análise de sistemas dinâmicos não-lineares com aplicações em biologia e engenharia. O projeto visa criar ferramentas computacionais para simulação e previsão de comportamentos complexos."
+        ],
+        "startedAt": "2024-01-15T12:00:00.000Z",
+        "finishedAt": null,
+        "createdAt": "2024-01-15T12:00:00.000Z",
+        "updatedAt": "2024-01-15T12:00:00.000Z"
+    },
+    {
+        "id": "research-educacao-matematica-e-tecnologias-digitais",
+        "title": "Educação Matemática e Tecnologias Digitais",
+        "summary": "Investigação sobre o uso de tecnologias digitais no ensino de matemática, desenvolvendo metodologias inovadoras para melhorar o aprendizado de conceitos matemáticos em diferentes níveis educacionais.",
+        "description": "Investigação sobre o uso de tecnologias digitais no ensino de matemática, desenvolvendo metodologias inovadoras para melhorar o aprendizado de conceitos matemáticos em diferentes níveis educacionais.",
+        "status": "active",
+        "leadProfessorId": "prof-dra-maria-fernanda-santos",
+        "team": ["member-ana-costa", "member-pedro-silva", "member-carla-mendes"],
+        "keywords": [
+            "Matematica",
+            "Dra. Maria Fernanda Santos",
+            "Investigação sobre o uso de tecnologias digitais no ensino de matemática",
+            "Desenvolvendo metodologias inovadoras para melhorar o aprendizado de conceitos matemáticos em diferentes níveis educacionais."
+        ],
+        "startedAt": "2024-01-29T12:00:00.000Z",
+        "finishedAt": null,
+        "createdAt": "2024-01-29T12:00:00.000Z",
+        "updatedAt": "2024-01-29T12:00:00.000Z"
+    },
+    {
+        "id": "research-teoria-dos-numeros-e-criptografia",
+        "title": "Teoria dos Números e Criptografia",
+        "summary": "Estudo de propriedades aritméticas de números inteiros com aplicações em criptografia moderna. Desenvolvimento de algoritmos seguros para proteção de dados digitais.",
+        "description": "Estudo de propriedades aritméticas de números inteiros com aplicações em criptografia moderna. Desenvolvimento de algoritmos seguros para proteção de dados digitais.",
+        "status": "active",
+        "leadProfessorId": "prof-dr-joao-roberto-lima",
+        "team": ["member-lucas-ferreira", "member-sofia-rodrigues"],
+        "keywords": [
+            "Matematica",
+            "Dr. João Roberto Lima",
+            "Estudo de propriedades aritméticas de números inteiros com aplicações em criptografia moderna. Desenvolvimento de algoritmos seguros para proteção de dados digitais."
+        ],
+        "startedAt": "2024-02-12T12:00:00.000Z",
+        "finishedAt": null,
+        "createdAt": "2024-02-12T12:00:00.000Z",
+        "updatedAt": "2024-02-12T12:00:00.000Z"
+    },
+    {
+        "id": "research-propriedades-opticas-de-nanomateriais",
+        "title": "Propriedades Ópticas de Nanomateriais",
+        "summary": "Investigação das propriedades ópticas de materiais nanoestruturados para aplicações em dispositivos fotônicos. Síntese e caracterização de nanopartículas com propriedades ópticas controladas.",
+        "description": "Investigação das propriedades ópticas de materiais nanoestruturados para aplicações em dispositivos fotônicos. Síntese e caracterização de nanopartículas com propriedades ópticas controladas.",
+        "status": "active",
+        "leadProfessorId": "prof-dr-anderson-pereira-costa",
+        "team": ["member-fernanda-lima", "member-roberto-santos", "member-julia-alves"],
+        "keywords": [
+            "Fisica",
+            "Dr. Anderson Pereira Costa",
+            "Investigação das propriedades ópticas de materiais nanoestruturados para aplicações em dispositivos fotônicos. Síntese e caracterização de nanopartículas com propriedades ópticas controladas."
+        ],
+        "startedAt": "2024-02-26T12:00:00.000Z",
+        "finishedAt": null,
+        "createdAt": "2024-02-26T12:00:00.000Z",
+        "updatedAt": "2024-02-26T12:00:00.000Z"
+    },
+    {
+        "id": "research-fisica-quantica-computacional",
+        "title": "Física Quântica Computacional",
+        "summary": "Desenvolvimento de algoritmos quânticos para resolução de problemas computacionais complexos. Estudo de sistemas quânticos para implementação em computadores quânticos.",
+        "description": "Desenvolvimento de algoritmos quânticos para resolução de problemas computacionais complexos. Estudo de sistemas quânticos para implementação em computadores quânticos.",
+        "status": "active",
+        "leadProfessorId": "prof-dra-luciana-oliveira-rocha",
+        "team": ["member-marcos-pereira", "member-camila-santos"],
+        "keywords": [
+            "Fisica",
+            "Dra. Luciana Oliveira Rocha",
+            "Desenvolvimento de algoritmos quânticos para resolução de problemas computacionais complexos. Estudo de sistemas quânticos para implementação em computadores quânticos."
+        ],
+        "startedAt": "2024-03-11T12:00:00.000Z",
+        "finishedAt": null,
+        "createdAt": "2024-03-11T12:00:00.000Z",
+        "updatedAt": "2024-03-11T12:00:00.000Z"
+    },
+    {
+        "id": "research-materiais-supercondutores-de-alta-temperatura",
+        "title": "Materiais Supercondutores de Alta Temperatura",
+        "summary": "Síntese e caracterização de materiais supercondutores que operam em temperaturas relativamente altas. Investigação de mecanismos de supercondutividade para aplicações tecnológicas.",
+        "description": "Síntese e caracterização de materiais supercondutores que operam em temperaturas relativamente altas. Investigação de mecanismos de supercondutividade para aplicações tecnológicas.",
+        "status": "completed",
+        "leadProfessorId": "prof-dr-rafael-mendes-alves",
+        "team": ["member-beatriz-costa", "member-diego-oliveira", "member-larissa-ferreira"],
+        "keywords": [
+            "Fisica",
+            "Dr. Rafael Mendes Alves",
+            "Síntese e caracterização de materiais supercondutores que operam em temperaturas relativamente altas. Investigação de mecanismos de supercondutividade para aplicações tecnológicas."
+        ],
+        "startedAt": "2024-03-25T12:00:00.000Z",
+        "finishedAt": "2024-09-21T12:00:00.000Z",
+        "createdAt": "2024-03-25T12:00:00.000Z",
+        "updatedAt": "2024-09-21T12:00:00.000Z"
+    },
+    {
+        "id": "research-sintese-de-compostos-bioativos-naturais",
+        "title": "Síntese de Compostos Bioativos Naturais",
+        "summary": "Desenvolvimento de rotas sintéticas para produção de compostos bioativos encontrados na natureza. Aplicações em farmacologia e desenvolvimento de novos medicamentos.",
+        "description": "Desenvolvimento de rotas sintéticas para produção de compostos bioativos encontrados na natureza. Aplicações em farmacologia e desenvolvimento de novos medicamentos.",
+        "status": "active",
+        "leadProfessorId": "prof-dra-patricia-campos-ferreira",
+        "team": ["member-gabriel-santos", "member-isabela-lima", "member-rafael-costa"],
+        "keywords": [
+            "Quimica",
+            "Dra. Patricia Campos Ferreira",
+            "Desenvolvimento de rotas sintéticas para produção de compostos bioativos encontrados na natureza. Aplicações em farmacologia e desenvolvimento de novos medicamentos."
+        ],
+        "startedAt": "2024-04-08T12:00:00.000Z",
+        "finishedAt": null,
+        "createdAt": "2024-04-08T12:00:00.000Z",
+        "updatedAt": "2024-04-08T12:00:00.000Z"
+    },
+    {
+        "id": "research-espectroscopia-avancada-para-analise-ambiental",
+        "title": "Espectroscopia Avançada para Análise Ambiental",
+        "summary": "Desenvolvimento de métodos espectroscópicos para detecção e quantificação de poluentes ambientais. Aplicação de técnicas analíticas avançadas em monitoramento ambiental.",
+        "description": "Desenvolvimento de métodos espectroscópicos para detecção e quantificação de poluentes ambientais. Aplicação de técnicas analíticas avançadas em monitoramento ambiental.",
+        "status": "active",
+        "leadProfessorId": "prof-dr-marcos-antonio-souza",
+        "team": ["member-natalia-rodrigues", "member-thiago-alves", "member-priscila-santos"],
+        "keywords": [
+            "Quimica",
+            "Dr. Marcos Antonio Souza",
+            "Desenvolvimento de métodos espectroscópicos para detecção e quantificação de poluentes ambientais. Aplicação de técnicas analíticas avançadas em monitoramento ambiental."
+        ],
+        "startedAt": "2024-04-22T12:00:00.000Z",
+        "finishedAt": null,
+        "createdAt": "2024-04-22T12:00:00.000Z",
+        "updatedAt": "2024-04-22T12:00:00.000Z"
+    },
+    {
+        "id": "research-catalise-heterogenea-para-energia-limpa",
+        "title": "Catálise Heterogênea para Energia Limpa",
+        "summary": "Desenvolvimento de catalisadores heterogêneos para produção de energia limpa. Estudo de reações catalíticas para conversão de biomassa e produção de hidrogênio.",
+        "description": "Desenvolvimento de catalisadores heterogêneos para produção de energia limpa. Estudo de reações catalíticas para conversão de biomassa e produção de hidrogênio.",
+        "status": "active",
+        "leadProfessorId": "prof-dra-cristina-barbosa-nunes",
+        "team": ["member-eduardo-ferreira", "member-vanessa-lima"],
+        "keywords": [
+            "Quimica",
+            "Dra. Cristina Barbosa Nunes",
+            "Desenvolvimento de catalisadores heterogêneos para produção de energia limpa. Estudo de reações catalíticas para conversão de biomassa e produção de hidrogênio."
+        ],
+        "startedAt": "2024-05-06T12:00:00.000Z",
+        "finishedAt": null,
+        "createdAt": "2024-05-06T12:00:00.000Z",
+        "updatedAt": "2024-05-06T12:00:00.000Z"
+    }
+]
