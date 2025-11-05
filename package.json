@@ -1,24 +1,27 @@
 {
-  "name": "daext-workspace",
-  "version": "0.0.0",
-  "private": true,
-  "packageManager": "pnpm@9.12.3",
-  "scripts": {
-    "dev": "concurrently \"pnpm -C apps/web dev\" \"pnpm -C apps/admin dev\" \"pnpm -C apps/api dev\"",
-    "dev:web": "pnpm -C apps/web dev",
-    "dev:admin": "pnpm -C apps/admin dev",
-    "dev:api": "pnpm -C apps/api dev",
-    "build": "pnpm -C apps/web build && pnpm -C apps/admin build && pnpm -C apps/api build",
-    "build:web": "pnpm -C apps/web build",
-    "build:admin": "pnpm -C apps/admin build",
-    "build:api": "pnpm -C apps/api build",
-    "lint": "pnpm -r run lint",
-    "typecheck": "pnpm -r run typecheck",
-    "test": "pnpm -r run test --if-present",
-    "clean": "rimraf node_modules && pnpm -r exec rimraf node_modules dist build out .turbo"
-  },
-  "devDependencies": {
-    "concurrently": "^8.2.2",
-    "rimraf": "^6.1.0"
-  }
+    "name": "daext-workspace",
+    "version": "0.0.0",
+    "private": true,
+    "packageManager": "pnpm@9.12.3",
+    "scripts": {
+        "dev": "concurrently \"pnpm -C apps/web dev\" \"pnpm -C apps/admin dev\" \"pnpm -C apps/api dev\"",
+        "dev:web": "pnpm -C apps/web dev",
+        "dev:admin": "pnpm -C apps/admin dev",
+        "dev:api": "pnpm -C apps/api dev",
+        "build": "pnpm -C apps/web build && pnpm -C apps/admin build && pnpm -C apps/api build",
+        "build:web": "pnpm -C apps/web build",
+        "build:admin": "pnpm -C apps/admin build",
+        "build:api": "pnpm -C apps/api build",
+        "lint": "pnpm -r run lint",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "typecheck": "pnpm -r run typecheck",
+        "test": "pnpm -r run test --if-present",
+        "clean": "rimraf node_modules && pnpm -r exec rimraf node_modules dist build out .turbo"
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.2",
+        "prettier": "^3.6.2",
+        "rimraf": "^6.1.0"
+    }
 }
