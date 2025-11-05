@@ -1,14 +1,14 @@
-import { BrowserRouter } from 'react-router-dom'
-import { AppRoutes } from './router'
+import { BrowserRouter } from 'react-router-dom';
+import { AppRoutes } from './router';
 
-declare const __BASE_PATH__: string
+declare const __BASE_PATH__: string;
 
 function App() {
-  return (
-    <BrowserRouter basename={__BASE_PATH__}>
-      <AppRoutes />
-    </BrowserRouter>
-  )
+    return (
+        <BrowserRouter basename={__BASE_PATH__}>
+            <AppRoutes />
+        </BrowserRouter>
+    );
 }
 
-export default App
+export default App;
