@@ -5,41 +5,46 @@ Este repositório contém o código-fonte e a documentação do site do **Depart
 ---
 
 ## 🎯 Objetivo
+
 O site visa divulgar as atividades de **ensino, pesquisa e extensão** desenvolvidas pelos docentes do DAEx, bem como facilitar o acesso às informações sobre **docentes, projetos de pesquisa e notícias acadêmicas**.
 
 ---
 
 ## 👥 Público-Alvo
-- Estudantes de graduação e pós-graduação da UTFPR  
-- Professores e pesquisadores  
-- Comunidade acadêmica externa  
+
+- Estudantes de graduação e pós-graduação da UTFPR
+- Professores e pesquisadores
+- Comunidade acadêmica externa
 
 ---
 
 ## 🧱 Estrutura do Site
-- **Início:** Apresentação institucional  
-- **Docentes:** Perfis com titulação, área de atuação e link Lattes  
-- **Pesquisas:** Projetos e linhas de pesquisa por área  
-- **Notícias:** Atualizações e eventos  
-- **Contato:** E-mail institucional e formulário  
+
+- **Início:** Apresentação institucional
+- **Docentes:** Perfis com titulação, área de atuação e link Lattes
+- **Pesquisas:** Projetos e linhas de pesquisa por área
+- **Notícias:** Atualizações e eventos
+- **Contato:** E-mail institucional e formulário
 
 ---
 
 ## 🎨 Estilo Visual
-- **Identidade UTFPR:** cores oficiais (Amarelo #FFC72C, Preto #000000 e Branco #FFFFFF)  
-- **Layout:** acadêmico, limpo e responsivo  
+
+- **Identidade UTFPR:** cores oficiais (Amarelo #FFC72C, Preto #000000 e Branco #FFFFFF)
+- **Layout:** acadêmico, limpo e responsivo
 - **Tipografia sugerida:** Inter peso 700 e Inter peso 600
 
 ---
 
-## 🧩 Tecnologias 
-- HTML5 / CSS3 / JavaScript (versão estática inicial)  
-- Responsividade baseada em Grid/Flexbox  
+## 🧩 Tecnologias
+
+- HTML5 / CSS3 / JavaScript (versão estática inicial)
+- Responsividade baseada em Grid/Flexbox
 - React
 - Tailwind CSS
- 
 
 ## 📍 Contato
+
 Departamento Acadêmico de Exatas – UTFPR Guarapuava  
 📧 daext-gp@utfpr.edu.br  
 📍 Avenida Professora Laura Pacheco Bastos, 800 – Bairro Industrial, Guarapuava – PR  

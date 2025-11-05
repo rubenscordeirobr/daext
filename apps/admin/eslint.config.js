@@ -1,4 +1,3 @@
-import { react } from '../../packages/eslint-config/react.js'
+import { react } from '../../packages/eslint-config/react.js';
 
-export default react
-
+export default react;
