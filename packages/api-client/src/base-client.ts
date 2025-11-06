@@ -42,7 +42,11 @@ export abstract class BaseClient {
 
         this.baseUrl = options.baseUrl.replace(/\/+$/, '');
         this.defaultHeaders = options.defaultHeaders ?? defaultHeaders;
-        this.fetchImpl = fetchImpl;
+        // Some native fetch implementations require the correct `this` binding
+        // (calling an unbound native function can cause "Illegal invocation").
+        // If the chosen implementation is the global fetch, bind it to globalThis.
+        // If the caller passed a custom fetch, assume it's already usable as-is.
+        this.fetchImpl = fetchImpl === globalThis.fetch ? fetchImpl.bind(globalThis) : fetchImpl;
     }
 
     protected async request<TResponse>(
@@ -52,9 +56,10 @@ export abstract class BaseClient {
         const url = buildUrl(this.baseUrl, path, options.query);
 
         try {
+            const headers = mergeHeaders(this.defaultHeaders, options.headers);
             const response = await this.fetchImpl(url, {
                 ...options,
-                headers: mergeHeaders(this.defaultHeaders, options.headers),
+                headers: headers,
             });
 
             if (!response.ok) {
