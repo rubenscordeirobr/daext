@@ -4,7 +4,7 @@
     "private": true,
     "packageManager": "pnpm@9.12.3",
     "scripts": {
-        "dev": "concurrently \"pnpm -C apps/web dev\" \"pnpm -C apps/admin dev\" \"pnpm -C apps/api dev\"",
+        "dev": "concurrently \"pnpm -C packages/domain dev\" \"pnpm -C packages/api-client dev\" \"pnpm -C packages/ui dev\" \"pnpm -C apps/web dev\" \"pnpm -C apps/admin dev\" \"pnpm -C apps/api dev\"",
         "dev:web": "pnpm -C apps/web dev",
         "dev:admin": "pnpm -C apps/admin dev",
         "dev:api": "pnpm -C apps/api dev",
@@ -15,12 +15,21 @@
         "lint": "pnpm -r run lint",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
+        "prepare": "husky install",
         "typecheck": "pnpm -r run typecheck",
         "test": "pnpm -r run test --if-present",
         "clean": "rimraf node_modules && pnpm -r exec rimraf node_modules dist build out .turbo"
     },
+    "lint-staged": {
+        "*.{js,jsx,ts,tsx,json,css,md}": [
+            "prettier --write",
+            "pnpm -w -r eslint --fix --max-warnings=0"
+        ]
+    },
     "devDependencies": {
         "concurrently": "^8.2.2",
+        "husky": "^8.0.3",
+        "lint-staged": "^13.3.0",
         "prettier": "^3.6.2",
         "rimraf": "^6.1.0"
     }
