@@ -1,4 +1,5 @@
 import Fastify from 'fastify';
+import cors from '@fastify/cors';
 
 import type { NewsArticle } from '@daext/domain';
 import type { Professor } from '@daext/domain';
@@ -17,6 +18,24 @@ import { ResearchService } from './modules/research/research.service.js';
 
 const fastify = Fastify({
     logger: true,
+});
+
+// Register CORS to allow requests from the web dev server during development.
+// Adjust the allowed origins as needed for production.
+fastify.register(cors, {
+    origin: (
+        origin: string | undefined,
+        callback: (error: Error | null, allow: boolean) => void
+    ) => {
+        // Allow requests with no origin (e.g., curl, server-to-server)
+        if (!origin) return callback(null, true);
+
+        // Allow localhost and 127.0.0.1 on any port during development
+        if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:'))
+            callback(null, true);
+        else callback(new Error('Not allowed by CORS'), false);
+    },
+    // exposeHeaders: ['Content-Range'], // example if you need custom headers
 });
 
 const newsStore = new JsonStore<NewsArticle>(new URL('../data/news/news.json', import.meta.url));
