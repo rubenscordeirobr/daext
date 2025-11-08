@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import Header from '../../components/feature/Header';
 import Footer from '../../components/feature/Footer';
-import ContatoContent from './components/ContatoContent';
+import ContatContent from './components/ContatContent';
 
 const ContatoPage = () => {
     useEffect(() => {
@@ -81,7 +81,7 @@ const ContatoPage = () => {
         <div className="min-h-screen bg-[#fafdfd]">
             <Header />
             <main>
-                <ContatoContent />
+                <ContatContent />
             </main>
             <Footer />
         </div>

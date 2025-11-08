@@ -1,6 +1,6 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 
-const ContatoContent = () => {
+const ContatContent = () => {
     const [formData, setFormData] = useState({
         nome: '',
         email: '',
@@ -310,4 +310,4 @@ const ContatoContent = () => {
     );
 };
 
-export default ContatoContent;
+export default ContatContent;
