@@ -1,28 +1,32 @@
 import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 
-import { RESEARCH_PROJECT_STATUSES, type ResearchProjectDraft } from '@daext/domain';
+import { ResearchProjectStatus, AcademicArea, type ResearchProjectDraft } from '@daext/domain';
 
 import { NotFoundError } from '../../core/errors.js';
 import type { ListResearchOptions, ResearchService } from './research.service.js';
 
 const listQuerySchema = z.object({
-    status: z.enum(RESEARCH_PROJECT_STATUSES).optional(),
+    status: z.nativeEnum(ResearchProjectStatus).optional(),
     keyword: z.string().min(1).optional(),
     page: z.coerce.number().int().min(1).optional(),
     pageSize: z.coerce.number().int().min(1).max(100).optional(),
 });
 
-const projectSchema = z.object({
-    title: z.string().min(3),
-    summary: z.string().min(10),
-    description: z.string().min(10),
-    status: z.enum(RESEARCH_PROJECT_STATUSES).optional(),
-    leadProfessorId: z.string().uuid(),
-    team: z.array(z.string().uuid()).optional(),
+export const projectSchema = z.object({
+    title: z.string().min(3, 'Title must have at least 3 characters'),
+    area: z.nativeEnum(AcademicArea),
+    supervisor: z.string().min(3, 'Supervisor name must have at least 3 characters'),
+    collaborators: z.array(z.string().min(2)).optional(),
+    summary: z.string().min(10, 'Summary must have at least 10 characters'),
+    statusColor: z.string().min(1, 'Status color is required'),
+    imageUrl: z.string().url('Must be a valid image URL'),
+    description: z.string().min(10, 'Description must have at least 10 characters'),
+    leadProfessorId: z.string().uuid('Lead professor ID must be a valid UUID'),
+    status: z.nativeEnum(ResearchProjectStatus),
     keywords: z.array(z.string().min(2)).optional(),
-    startedAt: z.string().datetime(),
-    finishedAt: z.string().datetime().nullable().optional(),
+    startedAt: z.string().datetime('Invalid start date format'),
+    finishedAt: z.string().datetime('Invalid finish date format').nullable().optional(),
 });
 
 const projectPatchSchema = projectSchema.partial();

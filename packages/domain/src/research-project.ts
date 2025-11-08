@@ -1,17 +1,18 @@
 import type { EntityId, ISODateString } from './primitives.js';
-
-export const RESEARCH_PROJECT_STATUSES = ['draft', 'active', 'completed', 'archived'] as const;
-
-export type ResearchProjectStatus = (typeof RESEARCH_PROJECT_STATUSES)[number];
+import { ResearchProjectStatus } from './research-project-status.js';
+import { AcademicArea } from './academic-area.js';
 
 export interface ResearchProject {
     id: EntityId;
     title: string;
+    area: AcademicArea;
+    supervisor: string;
+    collaborators?: string[];
     summary: string;
+    imageUrl: string;
     description: string;
     status: ResearchProjectStatus;
-    leadProfessorId: EntityId;
-    team: EntityId[];
+    leadProfessorId?: EntityId;
     keywords: string[];
     startedAt: ISODateString;
     finishedAt?: ISODateString | null;
@@ -21,17 +22,18 @@ export interface ResearchProject {
 
 export interface ResearchProjectDraft {
     title: string;
+    area: AcademicArea;
+    supervisor: string;
+    collaborators?: string[];
     summary: string;
+    imageUrl?: string;
     description: string;
-    status?: ResearchProjectStatus;
-    leadProfessorId: EntityId;
-    team?: EntityId[];
+    leadProfessorId?: EntityId;
+    status: ResearchProjectStatus;
     keywords?: string[];
     startedAt: ISODateString;
     finishedAt?: ISODateString | null;
 }
-
-export const DEFAULT_RESEARCH_STATUS: ResearchProjectStatus = 'draft';
 
 export function isResearchProject(value: unknown): value is ResearchProject {
     if (typeof value !== 'object' || value === null) return false;
@@ -43,16 +45,17 @@ export function isResearchProject(value: unknown): value is ResearchProject {
         typeof candidate.summary === 'string' &&
         typeof candidate.description === 'string' &&
         typeof candidate.status === 'string' &&
-        (RESEARCH_PROJECT_STATUSES as readonly string[]).includes(candidate.status) &&
-        typeof candidate.leadProfessorId === 'string' &&
-        Array.isArray(candidate.team) &&
-        candidate.team.every((member) => typeof member === 'string') &&
+        typeof candidate.researchAreas === 'object' &&
+        Array.isArray(candidate.researchAreas) &&
+        candidate.researchAreas.every((area) => typeof area === 'string') &&
+        (candidate.leadProfessorId === undefined ||
+            typeof candidate.leadProfessorId === 'string') &&
+        Array.isArray(candidate.collaborators) &&
+        candidate.collaborators.every((member) => typeof member === 'string') &&
         Array.isArray(candidate.keywords) &&
         candidate.keywords.every((keyword) => typeof keyword === 'string') &&
         typeof candidate.startedAt === 'string' &&
-        (candidate.finishedAt === undefined ||
-            candidate.finishedAt === null ||
-            typeof candidate.finishedAt === 'string') &&
+        (candidate.finishedAt === undefined || typeof candidate.finishedAt === 'string') &&
         typeof candidate.createdAt === 'string' &&
         typeof candidate.updatedAt === 'string'
     );
@@ -71,9 +74,12 @@ export function createResearchProject(
         title: data.title,
         summary: data.summary,
         description: data.description,
-        status: data.status ?? DEFAULT_RESEARCH_STATUS,
+        status: data.status ?? ResearchProjectStatus.Draft,
+        area: data.area,
+        supervisor: data.supervisor,
+        imageUrl: data.imageUrl ?? 'assets/images/no-image-available.png',
         leadProfessorId: data.leadProfessorId,
-        team: data.team ? [...data.team] : [],
+        collaborators: data.collaborators ? [...data.collaborators] : [],
         keywords: data.keywords ? [...data.keywords] : [],
         startedAt: data.startedAt,
         finishedAt: data.finishedAt ?? null,

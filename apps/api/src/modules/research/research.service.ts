@@ -47,7 +47,7 @@ export class ResearchService {
         const updated: ResearchProject = {
             ...existing,
             ...patch,
-            team: patch.team ?? existing.team,
+            collaborators: patch.collaborators ?? existing.collaborators,
             keywords: patch.keywords ?? existing.keywords,
             finishedAt: patch.finishedAt === undefined ? existing.finishedAt : patch.finishedAt,
             updatedAt: new Date().toISOString(),
