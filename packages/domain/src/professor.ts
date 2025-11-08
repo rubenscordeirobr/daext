@@ -1,9 +1,13 @@
 import type { EntityId, ISODateString } from './primitives.js';
+import { ProfessorArea } from './professor-area.js';
 
 export interface Professor {
     id: EntityId;
     fullName: string;
     academicTitle: string;
+    area: ProfessorArea;
+    specialization: string;
+    orcid?: string;
     researchAreas: string[];
     bio: string;
     email?: string;
@@ -17,6 +21,9 @@ export interface Professor {
 export interface ProfessorProfileDraft {
     fullName: string;
     academicTitle: string;
+    area: ProfessorArea;
+    specialization: string;
+    orcid?: string;
     researchAreas: string[];
     bio: string;
     email?: string;
@@ -57,6 +64,9 @@ export function createProfessor(
         id: data.id,
         fullName: data.fullName,
         academicTitle: data.academicTitle,
+        area: data.area,
+        orcid: data.orcid,
+        specialization: data.specialization,
         researchAreas: [...data.researchAreas],
         bio: data.bio,
         email: data.email,
