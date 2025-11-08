@@ -1,34 +1,44 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { getAssetPath } from '../../../utils/assetPath';
+import type { Professor } from '@daext/domain';
+import { ProfessorAreaIcon, ProfessorAreaList, getAreaDisplayName } from '@daext/domain';
+import { ProfessorsClient } from '@daext/api-client';
 
-interface Docente {
-    nome: string;
-    area: string;
-    titulacao: string;
-    especializacao: string;
-    lattes: string;
-    orcid: string;
-    foto: string;
-}
-
-const DocentesContent = () => {
-    const [activeArea, setActiveArea] = useState('todos');
-    const [docentes, setDocentes] = useState<Docente[]>([]);
+const ProfessorsContent = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [professors, setProfessors] = useState<Professor[]>([]);
     const [loading, setLoading] = useState(true);
 
+    // Read activeArea directly from URL search params
+    const activeArea = searchParams.get('area') ?? 'all';
+
+    const handleSetActiveArea = (area: string) => {
+        console.log('[DEBUG] Changing area →', area);
+        if (area === 'all') {
+            setSearchParams({});
+        } else {
+            setSearchParams({ area });
+        }
+    };
+
     const areas = [
-        { id: 'todos', name: 'Todos', icon: 'ri-team-line' },
-        { id: 'Matemática', name: 'Matemática', icon: 'ri-calculator-line' },
-        { id: 'Física', name: 'Física', icon: 'ri-atom-line' },
-        { id: 'Química', name: 'Química', icon: 'ri-test-tube-line' },
+        {
+            id: 'all',
+            displayName: 'Todos',
+            icon: ProfessorAreaIcon.All,
+        },
+        ...ProfessorAreaList,
     ];
+
+    const url = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
+    const client = new ProfessorsClient({ baseUrl: url });
 
     useEffect(() => {
         const fetchDocentes = async () => {
             try {
-                const response = await fetch(getAssetPath('data/docentes.json'));
-                const data: unknown = await response.json();
-                setDocentes(data as typeof docentes);
+                const professors = await client.list();
+                setProfessors(professors);
             } catch (error) {
                 console.error('Erro ao carregar dados dos docentes:', error);
             } finally {
@@ -40,9 +50,9 @@ const DocentesContent = () => {
     }, []);
 
     const filteredDocentes =
-        activeArea === 'todos'
-            ? docentes
-            : docentes.filter((docente) => docente.area === activeArea);
+        activeArea === 'all'
+            ? professors
+            : professors.filter((docente) => docente.area === activeArea);
 
     if (loading) {
         return (
@@ -83,7 +93,7 @@ const DocentesContent = () => {
                     {areas.map((area) => (
                         <button
                             key={area.id}
-                            onClick={() => setActiveArea(area.id)}
+                            onClick={() => handleSetActiveArea(area.id)}
                             className={`flex items-center space-x-2 px-6 py-3 rounded-full font-medium transition-all duration-300 whitespace-nowrap ${
                                 activeArea === area.id
                                     ? 'bg-[#ffbf00] text-black shadow-lg'
@@ -93,22 +103,25 @@ const DocentesContent = () => {
                             <div className="w-5 h-5 flex items-center justify-center">
                                 <i className={area.icon}></i>
                             </div>
-                            <span>{area.name}</span>
+                            <span>{area.displayName}</span>
                         </button>
                     ))}
                 </div>
 
                 {/* Grid de Docentes */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {filteredDocentes.map((docente, index) => (
+                    {filteredDocentes.map((professor, index) => (
                         <div
                             key={index}
                             className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group"
                         >
                             <div className="relative h-64 overflow-hidden">
                                 <img
-                                    src={getAssetPath(docente.foto)}
-                                    alt={docente.nome}
+                                    src={getAssetPath(
+                                        professor.avatarUrl ??
+                                            getAssetPath('/assets/images/no-image-avalaible.png')
+                                    )}
+                                    alt={professor.fullName}
                                     className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -116,27 +129,27 @@ const DocentesContent = () => {
 
                             <div className="p-6">
                                 <h3 className="text-xl font-bold text-black mb-2">
-                                    {docente.nome}
+                                    {professor.fullName}
                                 </h3>
                                 <p className="text-[#ffbf00] font-medium mb-3">
-                                    {docente.titulacao}
+                                    {getAreaDisplayName(professor.area)}
                                 </p>
                                 <p className="text-[#8d9199] text-sm mb-6 leading-relaxed">
-                                    {docente.especializacao}
+                                    {professor.academicTitle}
                                 </p>
 
                                 <div className="flex space-x-3">
                                     <a
-                                        href={docente.lattes}
+                                        href={professor.lattesUrl}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="flex-1 bg-[#ffbf00] text-black px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#e6ac00] transition-colors text-center whitespace-nowrap"
                                     >
                                         Currículo Lattes
                                     </a>
-                                    {docente.orcid && (
+                                    {professor.orcid && (
                                         <a
-                                            href={`https://orcid.org/${docente.orcid}`}
+                                            href={`https://orcid.org/${professor.orcid}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors text-center whitespace-nowrap"
@@ -165,4 +178,4 @@ const DocentesContent = () => {
     );
 };
 
-export default DocentesContent;
+export default ProfessorsContent;

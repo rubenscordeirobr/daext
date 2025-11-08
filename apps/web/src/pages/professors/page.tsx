@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import Header from '../../components/feature/Header';
 import Footer from '../../components/feature/Footer';
-import DocentesContent from './components/DocentesContent';
+import ProfessorsContent from './components/ProfessorsContent';
 
 const DocentesPage = () => {
     useEffect(() => {
@@ -74,7 +74,7 @@ const DocentesPage = () => {
         <div className="min-h-screen bg-[#fafdfd]">
             <Header />
             <main>
-                <DocentesContent />
+                <ProfessorsContent />
             </main>
             <Footer />
         </div>

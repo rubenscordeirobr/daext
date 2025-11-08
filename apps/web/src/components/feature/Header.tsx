@@ -2,21 +2,33 @@ import { useState, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { getAssetPath } from '../../utils/assetPath';
 
+import { ProfessorAreaData } from '@daext/domain';
+
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
     const location = useLocation();
     const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+    const mathAreaData = ProfessorAreaData.math;
+    const physicsAreaData = ProfessorAreaData.physics;
+    const chemistryAreaData = ProfessorAreaData.chemistry;
+
     const navigation = [
         { name: 'Início', href: '/' },
         {
             name: 'Docentes',
-            href: '/docentes',
+            href: '/professors',
             submenu: [
-                { name: 'Matemática', href: '/docentes?area=matematica' },
-                { name: 'Física', href: '/docentes?area=fisica' },
-                { name: 'Química', href: '/docentes?area=quimica' },
+                { name: mathAreaData.displayName, href: `/professors?area=${mathAreaData.id}` },
+                {
+                    name: physicsAreaData.displayName,
+                    href: `/professors?area=${physicsAreaData.id}`,
+                },
+                {
+                    name: chemistryAreaData.displayName,
+                    href: `/professors?area=${chemistryAreaData.id}`,
+                },
             ],
         },
         {
