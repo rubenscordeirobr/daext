@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-
 import { NewsClient } from '@daext/api-client';
-import type { NewsArticle } from '@daext/domain';
+import { NewsCategory, NewsCategoryList, type NewsArticle } from '@daext/domain';
 
 import { getAssetPath } from '../../../utils/assetPath';
 
@@ -9,56 +8,20 @@ const newsClient = new NewsClient({
     baseUrl: (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:4000',
 });
 
-const CATEGORY_META = {
-    todas: { label: 'Todas', icon: 'ri-news-line', color: 'bg-white text-gray-700' },
-    defesas: {
-        label: 'Defesas',
-        icon: 'ri-graduation-cap-line',
-        color: 'bg-blue-100 text-blue-800',
-    },
-    publicacoes: {
-        label: 'Publicações',
-        icon: 'ri-book-line',
-        color: 'bg-green-100 text-green-800',
-    },
-    eventos: {
-        label: 'Eventos',
-        icon: 'ri-calendar-event-line',
-        color: 'bg-purple-100 text-purple-800',
-    },
-    extensao: {
-        label: 'Extensão',
-        icon: 'ri-community-line',
-        color: 'bg-orange-100 text-orange-800',
-    },
-    reconhecimentos: {
-        label: 'Reconhecimentos',
-        icon: 'ri-award-line',
-        color: 'bg-yellow-100 text-yellow-800',
-    },
-};
-
-const CATEGORY_ORDER = [
-    'todas',
-    'defesas',
-    'publicacoes',
-    'eventos',
-    'extensao',
-    'reconhecimentos',
-] as const;
-
-type FilterKey = (typeof CATEGORY_ORDER)[number];
-type CategoryKey = Exclude<FilterKey, 'todas'>;
+const categories = NewsCategoryList;
 
 const FALLBACK_IMAGE = getAssetPath('assets/images/no-image-avalaible.png');
 
 const NewsContent = () => {
-    const [activeCategory, setActiveCategory] = useState<FilterKey>('todas');
+    const [activeCategory, setActiveCategory] = useState<NewsCategory>(NewsCategory.All);
     const [news, setNews] = useState<NewsArticle[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedNews, setSelectedNews] = useState<NewsArticle | null>(null);
 
+    const handleSetActiveCategory = (category: NewsCategory) => {
+        setActiveCategory(category);
+    };
     useEffect(() => {
         const loadNews = async () => {
             try {
@@ -76,12 +39,10 @@ const NewsContent = () => {
     }, []);
 
     const items = useMemo(() => {
-        if (activeCategory === 'todas') {
+        if (activeCategory === NewsCategory.All) {
             return news;
         }
-
-        const categoryKey = activeCategory as CategoryKey;
-        return news.filter((article) => extractCategory(article) === categoryKey);
+        return news.filter((article) => extractCategory(article) === activeCategory);
     }, [activeCategory, news]);
 
     if (loading) {
@@ -126,18 +87,17 @@ const NewsContent = () => {
                 </div>
 
                 <div className="flex flex-wrap justify-center gap-4 mb-12">
-                    {CATEGORY_ORDER.map((categoryKey) => {
-                        const category = CATEGORY_META[categoryKey];
+                    {categories.map((category) => {
                         if (!category) {
                             return null;
                         }
 
                         return (
                             <button
-                                key={categoryKey}
-                                onClick={() => setActiveCategory(categoryKey)}
+                                key={category.id}
+                                onClick={() => handleSetActiveCategory(category.id)}
                                 className={`flex items-center space-x-2 px-6 py-3 rounded-full font-medium transition-all duration-300 whitespace-nowrap ${
-                                    activeCategory === categoryKey
+                                    activeCategory === category.id
                                         ? 'bg-[#ffbf00] text-black shadow-lg'
                                         : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
                                 }`}
@@ -145,7 +105,7 @@ const NewsContent = () => {
                                 <div className="w-5 h-5 flex items-center justify-center">
                                     <i className={category.icon}></i>
                                 </div>
-                                <span>{category.label}</span>
+                                <span>{category.displayName}</span>
                             </button>
                         );
                     })}
@@ -153,8 +113,9 @@ const NewsContent = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {items.map((article) => {
-                        const categoryKey = extractCategory(article);
-                        const meta = (categoryKey && CATEGORY_META[categoryKey]) || null;
+                        const category = extractCategory(article);
+                        const info = categories.find((cat) => cat.id === category);
+
                         const imageUrl = extractCoverImage(article);
                         const formattedDate = formatDate(article.publishedAt);
 
@@ -171,12 +132,12 @@ const NewsContent = () => {
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                         loading="lazy"
                                     />
-                                    {meta ? (
+                                    {info ? (
                                         <div className="absolute top-4 left-4">
                                             <span
-                                                className={`px-3 py-1 rounded-full text-xs font-medium ${meta.color}`}
+                                                className={`px-3 py-1 rounded-full text-xs font-medium ${info.color}`}
                                             >
-                                                {meta.label}
+                                                {info.displayName}
                                             </span>
                                         </div>
                                     ) : null}
@@ -274,12 +235,12 @@ const NewsContent = () => {
     );
 };
 
-function extractCategory(article: NewsArticle): CategoryKey | null {
-    const category = article.tags.find((tag) => tag in CATEGORY_META);
+function extractCategory(article: NewsArticle): NewsCategory | null {
+    const category = article.tags.find((tag) => tag in NewsCategory);
     if (!category) {
         return null;
     }
-    return category as CategoryKey;
+    return category as NewsCategory;
 }
 
 function extractCoverImage(article: NewsArticle): string {
@@ -303,14 +264,14 @@ function formatDate(value: string | null): string {
 }
 
 function SelectedCategoryTag({ article }: { article: NewsArticle }) {
-    const categoryKey = extractCategory(article);
-    if (!categoryKey) return null;
-    const meta = CATEGORY_META[categoryKey];
-    if (!meta) return null;
+    const category = extractCategory(article);
+    if (!category) return null;
+    const info = categories.find((cat) => cat.id === category);
+    if (!info) return null;
     return (
         <div className="absolute bottom-4 left-4">
-            <span className={`px-3 py-1 rounded-full text-xs font-medium ${meta.color}`}>
-                {meta.label}
+            <span className={`px-3 py-1 rounded-full text-xs font-medium ${info.color}`}>
+                {info.displayName}
             </span>
         </div>
     );
