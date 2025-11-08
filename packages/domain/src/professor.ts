@@ -1,11 +1,11 @@
 import type { EntityId, ISODateString } from './primitives.js';
-import { ProfessorArea } from './professor-area.js';
+import { AcademicArea } from './academic-area.js';
 
 export interface Professor {
     id: EntityId;
     fullName: string;
     academicTitle: string;
-    area: ProfessorArea;
+    area: AcademicArea;
     specialization: string;
     orcid?: string;
     researchAreas: string[];
@@ -13,7 +13,7 @@ export interface Professor {
     email?: string;
     phone?: string;
     lattesUrl?: string;
-    avatarUrl?: string;
+    avatarUrl: string;
     createdAt: ISODateString;
     updatedAt: ISODateString;
 }
@@ -21,7 +21,7 @@ export interface Professor {
 export interface ProfessorProfileDraft {
     fullName: string;
     academicTitle: string;
-    area: ProfessorArea;
+    area: AcademicArea;
     specialization: string;
     orcid?: string;
     researchAreas: string[];
@@ -72,7 +72,7 @@ export function createProfessor(
         email: data.email,
         phone: data.phone,
         lattesUrl: data.lattesUrl,
-        avatarUrl: data.avatarUrl,
+        avatarUrl: data.avatarUrl ?? 'assets/images/no-image-available.png',
         createdAt: data.createdAt ?? now,
         updatedAt: data.updatedAt ?? now,
     };

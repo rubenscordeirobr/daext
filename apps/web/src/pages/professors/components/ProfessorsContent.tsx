@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { getAssetPath } from '../../../utils/assetPath';
 import type { Professor } from '@daext/domain';
-import { ProfessorAreaIcon, ProfessorAreaList, getAreaDisplayName } from '@daext/domain';
+import { AcademicAreaIcon, AcademicAreaList, getAreaDisplayName } from '@daext/domain';
 import { ProfessorsClient } from '@daext/api-client';
 
 const ProfessorsContent = () => {
@@ -26,9 +26,9 @@ const ProfessorsContent = () => {
         {
             id: 'all',
             displayName: 'Todos',
-            icon: ProfessorAreaIcon.All,
+            icon: AcademicAreaIcon.All,
         },
-        ...ProfessorAreaList,
+        ...AcademicAreaList,
     ];
 
     const url = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
