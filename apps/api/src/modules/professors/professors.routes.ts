@@ -2,9 +2,11 @@ import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 
 import type { ProfessorProfileDraft } from '@daext/domain';
+import { ProfessorArea } from '@daext/domain';
 
 import { NotFoundError } from '../../core/errors.js';
 import type { ProfessorsService } from './professors.service.js';
+import { ar } from 'zod/v4/locales';
 
 const listQuerySchema = z.object({
     search: z.string().min(1).optional(),
@@ -16,6 +18,9 @@ const listQuerySchema = z.object({
 const profileSchema = z.object({
     fullName: z.string().min(3),
     academicTitle: z.string().min(2),
+    area: z.nativeEnum(ProfessorArea),
+    specialization: z.string().min(2),
+    orcid: z.string().min(2).optional(),
     researchAreas: z.array(z.string().min(2)).min(1),
     bio: z.string().min(10),
     email: z.string().email().optional(),
