@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { getAssetPath } from '../../utils/assetPath';
 
-import { ProfessorAreaData } from '@daext/domain';
+import { AcademicAreaData } from '@daext/domain';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,9 +10,9 @@ const Header = () => {
     const location = useLocation();
     const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    const mathAreaData = ProfessorAreaData.math;
-    const physicsAreaData = ProfessorAreaData.physics;
-    const chemistryAreaData = ProfessorAreaData.chemistry;
+    const mathAreaData = AcademicAreaData.math;
+    const physicsAreaData = AcademicAreaData.physics;
+    const chemistryAreaData = AcademicAreaData.chemistry;
 
     const navigation = [
         { name: 'Início', href: '/' },
@@ -33,15 +33,15 @@ const Header = () => {
         },
         {
             name: 'Pesquisas',
-            href: '/pesquisas',
+            href: '/research-projects',
             submenu: [
-                { name: 'Matemática', href: '/pesquisas?area=matematica' },
-                { name: 'Física', href: '/pesquisas?area=fisica' },
-                { name: 'Química', href: '/pesquisas?area=quimica' },
+                { name: 'Matemática', href: '/research-projects?area=math' },
+                { name: 'Física', href: '/research-projects?area=physics' },
+                { name: 'Química', href: '/research-projects?area=chemistry' },
             ],
         },
         { name: 'Notícias', href: '/news' },
-        { name: 'Contato', href: '/contato' },
+        { name: 'Contato', href: '/contact' },
     ];
 
     const isActive = (href: string) => {

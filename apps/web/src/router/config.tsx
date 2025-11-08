@@ -3,9 +3,9 @@ import { lazy } from 'react';
 
 const HomePage = lazy(() => import('../pages/home/page'));
 const ProfessorsPage = lazy(() => import('../pages/professors/page'));
-const PesquisasPage = lazy(() => import('../pages/pesquisas/page'));
+const ResearchPage = lazy(() => import('../pages/research-projects/page'));
 const NewsPage = lazy(() => import('../pages/news/page'));
-const ContatoPage = lazy(() => import('../pages/contato/page'));
+const ContactPage = lazy(() => import('../pages/contact/page'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 const routes: RouteObject[] = [
@@ -18,16 +18,16 @@ const routes: RouteObject[] = [
         element: <ProfessorsPage />,
     },
     {
-        path: '/pesquisas',
-        element: <PesquisasPage />,
+        path: '/research-projects',
+        element: <ResearchPage />,
     },
     {
         path: '/news',
         element: <NewsPage />,
     },
     {
-        path: '/contato',
-        element: <ContatoPage />,
+        path: '/contact',
+        element: <ContactPage />,
     },
     {
         path: '*',

@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import Header from '../../components/feature/Header';
 import Footer from '../../components/feature/Footer';
-import PesquisasContent from './components/PesquisasContent';
+import ResearchProjectContent from './components/ResearchProjectContent';
 
-const PesquisasPage = () => {
+const ResearchProjectsPage = () => {
     useEffect(() => {
         // SEO Meta Tags
         document.title = 'Pesquisas - Departamento de Exatas | UTFPR Guarapuava';
@@ -74,11 +74,11 @@ const PesquisasPage = () => {
         <div className="min-h-screen bg-[#fafdfd]">
             <Header />
             <main>
-                <PesquisasContent />
+                <ResearchProjectContent />
             </main>
             <Footer />
         </div>
     );
 };
 
-export default PesquisasPage;
+export default ResearchProjectsPage;
