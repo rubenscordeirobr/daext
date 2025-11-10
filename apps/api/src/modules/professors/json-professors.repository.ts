@@ -12,22 +12,34 @@ export class JsonProfessorsRepository implements ProfessorsRepository {
             return items;
         }
 
+        const normalizedArea = filter.area?.trim().toLowerCase();
+        const normalizedSearch = filter.search?.trim().toLowerCase();
+
         return items.filter((item) => {
-            if (filter.area) {
-                const normalizedArea = filter.area.toLowerCase();
-                const matchesArea = item.researchAreas.some((area: string) =>
-                    area.toLowerCase().includes(normalizedArea)
-                );
-                if (!matchesArea) return false;
+            if (normalizedArea && item.area.toLowerCase() !== normalizedArea) {
+                return false;
             }
 
-            if (filter.search) {
-                const text = filter.search.toLowerCase();
-                const matchesSearch =
-                    item.fullName.toLowerCase().includes(text) ||
-                    item.bio.toLowerCase().includes(text) ||
-                    item.academicTitle.toLowerCase().includes(text);
-                if (!matchesSearch) return false;
+            if (normalizedSearch) {
+                const fieldValues = [
+                    item.fullName,
+                    item.academicTitle,
+                    item.specialization,
+                    item.bio,
+                    item.email ?? '',
+                    item.phone ?? '',
+                ]
+                    .filter(Boolean)
+                    .map((value) => value.toLowerCase());
+
+                const fieldMatches = fieldValues.some((value) => value.includes(normalizedSearch));
+                const researchMatches = item.researchAreas.some((area) =>
+                    area.toLowerCase().includes(normalizedSearch)
+                );
+
+                if (!fieldMatches && !researchMatches) {
+                    return false;
+                }
             }
 
             return true;

@@ -6,27 +6,35 @@ import { AcademicArea } from '@daext/domain';
 
 import { NotFoundError } from '../../core/errors.js';
 import type { ProfessorsService } from './professors.service.js';
-import { ar } from 'zod/v4/locales';
 
 const listQuerySchema = z.object({
-    search: z.string().min(1).optional(),
-    area: z.string().min(1).optional(),
+    search: z.string().trim().min(1).optional(),
+    area: z.nativeEnum(AcademicArea).optional(),
     page: z.coerce.number().int().min(1).optional(),
     pageSize: z.coerce.number().int().min(1).max(100).optional(),
 });
+
+const assetUrlSchema = z
+    .string()
+    .trim()
+    .min(1)
+    .refine(
+        (value) => value.startsWith('/') || /^https?:\/\//i.test(value),
+        'Informe uma URL absoluta ou caminho relativo iniciado por /.'
+    );
 
 const profileSchema = z.object({
     fullName: z.string().min(3),
     academicTitle: z.string().min(2),
     area: z.nativeEnum(AcademicArea),
     specialization: z.string().min(2),
-    orcid: z.string().min(2).optional(),
-    researchAreas: z.array(z.string().min(2)).min(1),
+    orcid: z.string().optional(),
+    researchAreas: z.array(z.string()),
     bio: z.string().min(10),
-    email: z.string().email().optional(),
-    phone: z.string().min(5).optional(),
+    email: z.string().optional(),
+    phone: z.string().optional(),
     lattesUrl: z.string().url().optional(),
-    avatarUrl: z.string().url().optional(),
+    avatarUrl: assetUrlSchema.optional(),
 });
 
 const profilePatchSchema = profileSchema.partial();
