@@ -1,24 +1,17 @@
-import './app.css';
-import { Button } from '@ui';
+import { BrowserRouter } from 'react-router-dom';
+import { AppRoutes } from './router';
+import { useTheme } from './hooks/useTheme';
 
-export function App() {
+function App() {
+    // Initialize theme hook to set up dark mode class
+    useTheme();
+
+    declare const __BASE_PATH__: string;
+
     return (
-        <div className="app-shell">
-            <header>
-                <h1>DAEx Admin</h1>
-            </header>
-            <main>
-                <p>
-                    This scaffold lives in <code>apps/admin</code> and ships with its own Vite
-                    configuration. Add routes, layout primitives, and fetch data from the API
-                    project as needed.
-                </p>
-                <div className="demo-actions">
-                    <Button>Primary action</Button>
-                    <Button variant="secondary">Secondary action</Button>
-                </div>
-            </main>
-        </div>
+        <BrowserRouter basename={__BASE_PATH__}>
+            <AppRoutes />
+        </BrowserRouter>
     );
 }
 

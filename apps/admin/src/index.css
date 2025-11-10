@@ -1,0 +1,223 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-gray-100 dark:bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400 dark:bg-gray-500;
+}
+
+/* Firefox scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(209 213 219) rgb(243 244 246);
+}
+
+.dark * {
+    scrollbar-color: rgb(75 85 99) rgb(31 41 55);
+}
+
+/* Froala Editor dark mode */
+.dark .fr-wrapper {
+    @apply bg-gray-800 border-gray-600;
+}
+
+.dark .fr-element {
+    @apply bg-gray-800 text-white;
+}
+
+.dark .fr-toolbar {
+    @apply bg-gray-700 border-gray-600;
+}
+
+.dark .fr-btn {
+    @apply text-gray-300 hover:bg-gray-600;
+}
+
+.dark .fr-btn.fr-active {
+    @apply bg-gray-600 text-white;
+}
+
+.dark .fr-popup {
+    @apply bg-gray-800 border-gray-600;
+}
+
+.dark .fr-dropdown-menu {
+    @apply bg-gray-800 border-gray-600;
+}
+
+.dark .fr-dropdown-menu .fr-dropdown-wrapper .fr-dropdown-content ul li a {
+    @apply text-gray-300 hover:bg-gray-700;
+}
+
+/* Seleção de texto */
+::selection {
+    @apply bg-primary-200 text-primary-900;
+}
+
+.dark ::selection {
+    @apply bg-primary-800 text-primary-100;
+}
+
+/* Focus ring personalizado */
+.focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800;
+}
+
+/* Animações suaves */
+.transition-theme {
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+/* Prose dark mode para preview */
+.dark .prose-invert {
+    @apply text-gray-300;
+}
+
+.dark .prose-invert h1,
+.dark .prose-invert h2,
+.dark .prose-invert h3,
+.dark .prose-invert h4,
+.dark .prose-invert h5,
+.dark .prose-invert h6 {
+    @apply text-white;
+}
+
+.dark .prose-invert strong {
+    @apply text-white;
+}
+
+.dark .prose-invert a {
+    @apply text-primary-400;
+}
+
+.dark .prose-invert blockquote {
+    @apply text-gray-300 border-gray-600;
+}
+
+.dark .prose-invert code {
+    @apply text-gray-300 bg-gray-800;
+}
+
+/* Checkbox e radio customizados */
+input[type='checkbox']:checked {
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='m13.854 3.646-7.5 7.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6 10.293l7.146-7.147a.5.5 0 0 1 .708.708z'/%3e%3c/svg%3e");
+}
+
+/* Tooltip personalizado */
+[title]:hover::after {
+    content: attr(title);
+    @apply absolute z-50 px-2 py-1 text-xs text-white bg-gray-900 rounded shadow-lg pointer-events-none;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 5px;
+}
+
+/* Estados de loading */
+.loading-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Skeleton loading */
+.skeleton {
+    @apply animate-pulse bg-gray-200 dark:bg-gray-700 rounded;
+}
+
+/* Transições de página */
+.page-transition {
+    @apply transition-all duration-200 ease-in-out;
+}
+
+/* Hover effects */
+.hover-lift {
+    @apply transition-transform duration-200 ease-in-out hover:scale-105;
+}
+
+/* Card shadows */
+.card-shadow {
+    box-shadow:
+        0 1px 3px 0 rgba(0, 0, 0, 0.1),
+        0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.dark .card-shadow {
+    box-shadow:
+        0 1px 3px 0 rgba(0, 0, 0, 0.3),
+        0 1px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Quill editor overrides */
+.quill-editor-wrapper {
+    @apply border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 overflow-hidden;
+}
+
+.quill-editor-wrapper .ql-toolbar {
+    @apply bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600;
+}
+
+.quill-editor-wrapper .ql-toolbar button,
+.quill-editor-wrapper .ql-toolbar .ql-picker {
+    @apply text-gray-600 dark:text-gray-200;
+}
+
+.quill-editor-wrapper .ql-toolbar button:hover,
+.quill-editor-wrapper .ql-toolbar .ql-picker:hover {
+    @apply bg-gray-100 dark:bg-gray-600;
+}
+
+.quill-editor-wrapper .ql-container {
+    @apply border-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100;
+    min-height: 280px;
+}
+
+.quill-editor-wrapper .ql-editor {
+    min-height: 280px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.quill-editor-wrapper .ql-editor.ql-blank::before {
+    @apply text-gray-400 dark:text-gray-500;
+    font-style: normal;
+}
