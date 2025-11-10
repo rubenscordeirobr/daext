@@ -2,7 +2,11 @@ import type { EntityId, ISODateString, Slug } from './primitives.js';
 
 export const NEWS_ARTICLE_STATUSES = ['draft', 'scheduled', 'published'] as const;
 
-export type NewsArticleStatus = (typeof NEWS_ARTICLE_STATUSES)[number];
+export enum NewsArticleStatus {
+    Draft = 'draft',
+    Scheduled = 'scheduled',
+    Published = 'published',
+}
 
 export interface NewsArticle {
     id: EntityId;
@@ -26,8 +30,6 @@ export interface NewsArticleDraft {
     status?: NewsArticleStatus;
     publishedAt?: ISODateString | null;
 }
-
-export const DEFAULT_NEWS_STATUS: NewsArticleStatus = 'draft';
 
 export function isNewsArticle(value: unknown): value is NewsArticle {
     if (typeof value !== 'object' || value === null) return false;
@@ -64,7 +66,7 @@ export function createNewsArticle(
         summary: data.summary,
         body: data.body,
         tags: data.tags ?? [],
-        status: data.status ?? DEFAULT_NEWS_STATUS,
+        status: data.status ?? NewsArticleStatus.Draft,
         publishedAt: data.publishedAt ?? null,
         createdAt: data.createdAt ?? now,
         updatedAt: data.updatedAt ?? now,
