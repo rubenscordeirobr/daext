@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 
-import { NEWS_ARTICLE_STATUSES, type NewsArticleDraft } from '@daext/domain';
+import { NEWS_ARTICLE_STATUSES, NewsArticleStatus, type NewsArticleDraft } from '@daext/domain';
 
 import { NotFoundError } from '../../core/errors.js';
 import type { ListNewsOptions, NewsService } from './news.service.js';
@@ -20,7 +20,7 @@ const newsDraftSchema = z.object({
     summary: z.string().min(3),
     body: z.string().min(3),
     tags: z.array(z.string()).optional(),
-    status: z.enum(NEWS_ARTICLE_STATUSES).optional(),
+    status: z.nativeEnum(NewsArticleStatus).optional(),
     publishedAt: z.string().datetime().nullable().optional(),
 });
 
