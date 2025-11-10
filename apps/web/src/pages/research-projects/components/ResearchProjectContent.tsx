@@ -7,7 +7,7 @@ import {
     AcademicAreaList,
     getAreaDisplayName,
 } from '@daext/domain';
-import { ResearchClient } from '@daext/api-client';
+import { researchClient } from '@daext/api-client';
 
 const ResearchProjectContent = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -24,12 +24,11 @@ const ResearchProjectContent = () => {
         ...AcademicAreaList,
     ];
     const url = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
-    const client = new ResearchClient({ baseUrl: url });
 
     useEffect(() => {
         const loadResearchProjects = async () => {
             try {
-                const researchProjects = await client.list();
+                const researchProjects = await researchClient.list();
                 setResearchProjects(researchProjects);
             } catch (error) {
                 console.error('Erro ao carregar dados das pesquisas:', error);

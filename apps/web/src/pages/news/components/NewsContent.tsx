@@ -1,12 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import { NewsClient } from '@daext/api-client';
+import { newsClient } from '@daext/api-client';
 import { NewsCategory, NewsCategoryList, type NewsArticle } from '@daext/domain';
 
 import { getAssetPath } from '../../../utils/assetPath';
-
-const newsClient = new NewsClient({
-    baseUrl: (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:4000',
-});
 
 const categories = NewsCategoryList;
 

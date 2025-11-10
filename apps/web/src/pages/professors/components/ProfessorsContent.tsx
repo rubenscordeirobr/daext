@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { getAssetPath } from '../../../utils/assetPath';
 import type { Professor } from '@daext/domain';
 import { AcademicAreaIcon, AcademicAreaList, getAreaDisplayName } from '@daext/domain';
-import { ProfessorsClient } from '@daext/api-client';
+import { professorClient } from '@daext/api-client';
 
 const ProfessorsContent = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -31,8 +31,7 @@ const ProfessorsContent = () => {
         ...AcademicAreaList,
     ];
 
-    const url = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
-    const client = new ProfessorsClient({ baseUrl: url });
+    const client = professorClient;
 
     useEffect(() => {
         const fetchDocentes = async () => {
