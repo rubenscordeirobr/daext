@@ -5,7 +5,9 @@ import type {
     ResearchProjectStatus,
 } from '@daext/domain';
 
-import { BaseClient, type ApiClientOptions, type QueryParams } from './base-client';
+import { BaseClient } from './base-client';
+import type { ApiClientOptions, QueryParams } from './base-types';
+import { apiBaseUrl } from './config.js';
 
 export interface ListResearchParams extends QueryParams {
     status?: ResearchProjectStatus;
@@ -17,7 +19,7 @@ export interface ListResearchParams extends QueryParams {
 export type CreateResearchPayload = ResearchProjectDraft;
 export type UpdateResearchPayload = Partial<ResearchProjectDraft>;
 
-export class ResearchClient extends BaseClient {
+class ResearchClient extends BaseClient {
     constructor(options: ApiClientOptions) {
         super(options);
     }
@@ -52,3 +54,7 @@ export class ResearchClient extends BaseClient {
         });
     }
 }
+
+export const researchClient = new ResearchClient({
+    baseUrl: apiBaseUrl,
+});

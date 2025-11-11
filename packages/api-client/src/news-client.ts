@@ -1,6 +1,8 @@
 import type { EntityId, NewsArticle, NewsArticleDraft, NewsArticleStatus } from '@daext/domain';
 
-import { BaseClient, type ApiClientOptions, type QueryParams } from './base-client';
+import { BaseClient } from './base-client';
+import type { ApiClientOptions, QueryParams } from './base-types';
+import { apiBaseUrl } from './config.js';
 
 export interface ListNewsParams extends QueryParams {
     status?: NewsArticleStatus;
@@ -13,7 +15,7 @@ export interface ListNewsParams extends QueryParams {
 export type CreateNewsPayload = NewsArticleDraft;
 export type UpdateNewsPayload = Partial<NewsArticleDraft>;
 
-export class NewsClient extends BaseClient {
+class NewsClient extends BaseClient {
     constructor(options: ApiClientOptions) {
         super(options);
     }
@@ -48,3 +50,7 @@ export class NewsClient extends BaseClient {
         });
     }
 }
+
+export const newsClient = new NewsClient({
+    baseUrl: apiBaseUrl,
+});

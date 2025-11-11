@@ -8,9 +8,11 @@ import type {
     ResetPasswordPayload,
 } from '@daext/domain';
 
-import { BaseClient, type ApiClientOptions } from './base-client.js';
+import { BaseClient } from './base-client';
+import type { ApiClientOptions, QueryParams } from './base-types';
+import { apiBaseUrl } from './config.js';
 
-export class AuthClient extends BaseClient {
+class AuthClient extends BaseClient {
     constructor(options: ApiClientOptions) {
         super(options);
     }
@@ -59,3 +61,7 @@ export class AuthClient extends BaseClient {
         });
     }
 }
+
+export const authClient = new AuthClient({
+    baseUrl: apiBaseUrl,
+});

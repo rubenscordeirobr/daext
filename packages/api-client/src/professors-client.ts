@@ -1,6 +1,7 @@
 import type { EntityId, Professor, ProfessorProfileDraft } from '@daext/domain';
-
-import { BaseClient, type ApiClientOptions, type QueryParams } from './base-client';
+import { BaseClient } from './base-client';
+import type { ApiClientOptions, QueryParams } from './base-types';
+import { apiBaseUrl } from './config.js';
 
 export interface ListProfessorsParams extends QueryParams {
     search?: string;
@@ -12,7 +13,7 @@ export interface ListProfessorsParams extends QueryParams {
 export type CreateProfessorPayload = ProfessorProfileDraft;
 export type UpdateProfessorPayload = Partial<ProfessorProfileDraft>;
 
-export class ProfessorsClient extends BaseClient {
+class ProfessorsClient extends BaseClient {
     constructor(options: ApiClientOptions) {
         super(options);
     }
@@ -47,3 +48,7 @@ export class ProfessorsClient extends BaseClient {
         });
     }
 }
+
+export const professorClient = new ProfessorsClient({
+    baseUrl: apiBaseUrl,
+});
