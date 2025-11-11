@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import Sidebar from '../dashboard/components/Sidebar';
-import Header from '../dashboard/components/Header';
+import Sidebar from '../../components/Sidebar';
+import Header from '../../components/Header';
 import ToastContainer from '../../components/base/ToastContainer';
 import { useToast } from '../../hooks/useToast';
 

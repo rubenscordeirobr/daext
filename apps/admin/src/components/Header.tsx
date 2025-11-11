@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useToast } from '../../../hooks/useToast';
-import ThemeToggle from '../../../components/base/ThemeToggle';
+import { useToast } from '../hooks/useToast';
+import ThemeToggle from './base/ThemeToggle';
 
-export default function Header() {
+interface HeaderProps {
+    onMenuClick?: () => void;
+}
+
+export default function Header({ onMenuClick }: HeaderProps) {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
     const navigate = useNavigate();
@@ -41,9 +45,18 @@ export default function Header() {
     ];
 
     return (
-        <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+        <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 md:px-6 py-4">
             <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-3 md:space-x-4">
+                    {onMenuClick && (
+                        <button
+                            onClick={onMenuClick}
+                            className="md:hidden p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors cursor-pointer"
+                            aria-label="Abrir menu"
+                        >
+                            <i className="ri-menu-line text-xl"></i>
+                        </button>
+                    )}
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
                         Dashboard Acadêmico
                     </h1>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import Sidebar from '../dashboard/components/Sidebar';
-import Header from '../dashboard/components/Header';
+import Sidebar from '../../components/Sidebar';
+import Header from '../../components/Header';
 import UserTable from './components/UserTable';
 import UserModal from './components/UserModal';
 import UserFilters from './components/UserFilters';

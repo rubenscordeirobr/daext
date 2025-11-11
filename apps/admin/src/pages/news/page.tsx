@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import Sidebar from '../dashboard/components/Sidebar';
-import Header from '../dashboard/components/Header';
+import Sidebar from '../../components/Sidebar';
+import Header from '../../components/Header';
 import NewsFiltersComponent from './components/NewsFilters';
 import NewsTable from './components/NewsTable';
 import NewsModal from './components/NewsModal';

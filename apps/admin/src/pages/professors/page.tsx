@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import Sidebar from '../dashboard/components/Sidebar';
-import Header from '../dashboard/components/Header';
+import Sidebar from '../../components/Sidebar';
+import Header from '../../components/Header';
 import ProfessorFiltersComponent from './components/ProfessorFilters';
 import ProfessorTable from './components/ProfessorTable';
 import ProfessorModal from './components/ProfessorModal';

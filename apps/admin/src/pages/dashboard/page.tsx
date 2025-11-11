@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import Sidebar from './components/Sidebar';
-import Header from './components/Header';
+import Sidebar from '../../components/Sidebar';
+import Header from '../../components/Header';
 
 export default function Dashboard() {
     const [sidebarOpen, setSidebarOpen] = useState(false);

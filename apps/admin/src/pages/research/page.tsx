@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import Sidebar from '../dashboard/components/Sidebar';
-import Header from '../dashboard/components/Header';
+import Sidebar from '../../components/Sidebar';
+import Header from '../../components/Header';
 import ResearchFiltersComponent from './components/ResearchFilters';
 import ResearchTable from './components/ResearchTable';
 import ResearchModal from './components/ResearchModal';
