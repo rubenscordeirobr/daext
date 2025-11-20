@@ -6,7 +6,7 @@ import { getAssetPath } from '../../../utils/assetPath';
 
 const categories = NewsCategoryList;
 
-const FALLBACK_IMAGE = getAssetPath('assets/images/no-image-avalaible.png');
+const FALLBACK_IMAGE = getAssetPath('assets/images/no-image-available.png');
 
 const NewsContent = () => {
     const [activeCategory, setActiveCategory] = useState<NewsCategory>(NewsCategory.All);

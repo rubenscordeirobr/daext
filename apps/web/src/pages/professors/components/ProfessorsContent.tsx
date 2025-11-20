@@ -118,7 +118,7 @@ const ProfessorsContent = () => {
                                 <img
                                     src={getAssetPath(
                                         professor.avatarUrl ??
-                                            getAssetPath('/assets/images/no-image-avalaible.png')
+                                            getAssetPath('/assets/images/no-image-available.png')
                                     )}
                                     alt={professor.fullName}
                                     className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"

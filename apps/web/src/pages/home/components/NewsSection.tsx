@@ -6,7 +6,7 @@ import { NewsArticleStatus, NewsCategoryList } from '@daext/domain';
 
 import { getAssetPath } from '../../../utils/assetPath';
 
-const FALLBACK_IMAGE = getAssetPath('assets/images/no-image-avalaible.png');
+const FALLBACK_IMAGE = getAssetPath('assets/images/no-image-available.png');
 const DEFAULT_CATEGORY = {
     label: 'Noticia',
     color: 'bg-gray-100 text-gray-800',
