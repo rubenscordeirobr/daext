@@ -1,10 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import type { Professor, AcademicTitle, AcademicArea } from '../../../types/professor';
 import { AcademicAreaList, AcademicArea as AcademicAreaValue } from '../../../types/professor';
 import { professorProfileSchema } from '@daext/domain';
 import { ZodError } from 'zod';
+import Cropper, { type Area } from 'react-easy-crop';
 import { professorsService } from '../../../services/ProfessorsService';
 import ConfirmDialog from '../../../components/base/ConfirmDialog';
+import { resolveAssetUrl, resolverErrorImage } from '../../../utils/assets';
 
 interface ProfessorModalProps {
     isOpen: boolean;
@@ -46,9 +48,6 @@ const areaOptions: { value: AcademicArea; label: string }[] = AcademicAreaList.m
     label: area.displayName,
 }));
 
-const isAbsoluteUrl = (value: string) => /^https?:\/\//i.test(value);
-const isRelativeAssetPath = (value: string) => value.startsWith('/');
-
 export default function ProfessorModal({
     isOpen,
     professor,
@@ -78,9 +77,17 @@ export default function ProfessorModal({
     const [researchSuggestions, setResearchSuggestions] = useState<string[]>([]);
     const [avatarLoading, setAvatarLoading] = useState(false);
     const [originalUpdatedAt, setOriginalUpdatedAt] = useState<string>('');
+    const [pendingAvatarFile, setPendingAvatarFile] = useState<File | null>(null);
+    const [avatarPreview, setAvatarPreview] = useState<string>('');
+    const [cropImage, setCropImage] = useState<string | null>(null);
+    const [isCropperOpen, setIsCropperOpen] = useState(false);
+    const [crop, setCrop] = useState({ x: 0, y: 0 });
+    const [zoom, setZoom] = useState(1);
+    const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
 
     const modalRef = useRef<HTMLDivElement>(null);
     const firstInputRef = useRef<HTMLInputElement>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     // Carregar dados do professor para edição
     useEffect(() => {
@@ -100,6 +107,8 @@ export default function ProfessorModal({
                     avatarUrl: professor.avatarUrl,
                 });
                 setOriginalUpdatedAt(professor.updatedAt);
+                setAvatarPreview(professor.avatarUrl);
+                setPendingAvatarFile(null);
             } else {
                 setFormData({
                     fullName: '',
@@ -115,6 +124,8 @@ export default function ProfessorModal({
                     avatarUrl: '',
                 });
                 setOriginalUpdatedAt('');
+                setAvatarPreview('');
+                setPendingAvatarFile(null);
             }
             setErrors({});
             setHasChanges(false);
@@ -136,6 +147,15 @@ export default function ProfessorModal({
             setHasChanges(true);
         }
     }, [formData]);
+
+    useEffect(() => {
+        const url = avatarPreview;
+        return () => {
+            if (url && url.startsWith('blob:')) {
+                URL.revokeObjectURL(url);
+            }
+        };
+    }, [avatarPreview]);
 
     // Gerenciar foco no modal
     useEffect(() => {
@@ -160,6 +180,99 @@ export default function ProfessorModal({
             setResearchSuggestions(suggestions);
         } catch (error) {
             // Ignorar erro silenciosamente
+        }
+    };
+
+    const onCropComplete = useCallback((_: Area, croppedPixels: Area) => {
+        setCroppedAreaPixels(croppedPixels);
+    }, []);
+
+    const resetCropper = () => {
+        setCrop({ x: 0, y: 0 });
+        setZoom(1);
+        setCroppedAreaPixels(null);
+        setCropImage(null);
+        setIsCropperOpen(false);
+    };
+
+    const handleAvatarFileChange = (file?: File) => {
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+            if (typeof reader.result === 'string') {
+                setCropImage(reader.result);
+                setIsCropperOpen(true);
+            }
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const createCroppedBlob = async (imageSrc: string, cropPixels: Area): Promise<Blob> => {
+        return new Promise((resolve, reject) => {
+            const image = new Image();
+            image.crossOrigin = 'anonymous';
+            image.onload = () => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                if (!ctx) {
+                    reject(new Error('Canvas unsupported'));
+                    return;
+                }
+
+                const { width, height, x, y } = cropPixels;
+                canvas.width = width;
+                canvas.height = height;
+
+                ctx.drawImage(image, x, y, width, height, 0, 0, width, height);
+
+                // Resize down to max 500x500
+                const maxSize = 500;
+                const scale = Math.min(1, maxSize / Math.max(width, height));
+                let outputCanvas = canvas;
+                if (scale < 1) {
+                    const resized = document.createElement('canvas');
+                    resized.width = Math.round(width * scale);
+                    resized.height = Math.round(height * scale);
+                    const rctx = resized.getContext('2d');
+                    if (!rctx) {
+                        reject(new Error('Canvas unsupported'));
+                        return;
+                    }
+                    rctx.drawImage(canvas, 0, 0, resized.width, resized.height);
+                    outputCanvas = resized;
+                }
+
+                outputCanvas.toBlob(
+                    (blob) => {
+                        if (!blob) {
+                            reject(new Error('Falha ao gerar imagem'));
+                        } else {
+                            resolve(blob);
+                        }
+                    },
+                    'image/webp',
+                    0.9
+                );
+            };
+            image.onerror = reject;
+            image.src = imageSrc;
+        });
+    };
+
+    const confirmCrop = async () => {
+        if (!cropImage || !croppedAreaPixels) return;
+        try {
+            setAvatarLoading(true);
+            const blob = await createCroppedBlob(cropImage, croppedAreaPixels);
+            const file = new File([blob], 'avatar.webp', { type: 'image/webp' });
+            const previewUrl = URL.createObjectURL(blob);
+            setPendingAvatarFile(file);
+            setAvatarPreview(previewUrl);
+        } catch (error) {
+            onShowToast('Erro ao processar imagem. Tente novamente.', 'error');
+        } finally {
+            setAvatarLoading(false);
+            resetCropper();
         }
     };
 
@@ -273,19 +386,6 @@ export default function ProfessorModal({
         }
     };
 
-    const handleAvatarUrlChange = (url: string) => {
-        handleInputChange('avatarUrl', url);
-
-        if (url && (isAbsoluteUrl(url) || isRelativeAssetPath(url))) {
-            setAvatarLoading(true);
-            // Simular carregamento da imagem
-            const img = new Image();
-            img.onload = () => setAvatarLoading(false);
-            img.onerror = () => setAvatarLoading(false);
-            img.src = url;
-        }
-    };
-
     const handleSave = async () => {
         if (!validateForm()) {
             return;
@@ -294,23 +394,40 @@ export default function ProfessorModal({
         try {
             setLoading(true);
 
+            let savedProfessor: Professor;
+
             if (professor) {
-                // Editar professor existente
-                await professorsService.update(professor.id, {
+                savedProfessor = await professorsService.update(professor.id, {
                     ...formData,
                     updatedAt: originalUpdatedAt,
                 });
-                onShowToast('Alterações salvas com sucesso', 'success');
             } else {
-                // Criar novo professor
-                await professorsService.create(formData);
-                onShowToast('Professor criado com sucesso', 'success');
+                savedProfessor = await professorsService.create(formData);
             }
+
+            if (pendingAvatarFile) {
+                try {
+                    savedProfessor = await professorsService.uploadAvatar(
+                        savedProfessor.id,
+                        pendingAvatarFile
+                    );
+                    setPendingAvatarFile(null);
+                    setAvatarPreview(savedProfessor.avatarUrl);
+                    setFormData((prev) => ({ ...prev, avatarUrl: savedProfessor.avatarUrl }));
+                } catch (uploadError) {
+                    onShowToast('Avatar enviado parcialmente. Tente reenviar.', 'error');
+                }
+            }
+
+            onShowToast(
+                professor ? 'Alteracoes salvas com sucesso' : 'Professor criado com sucesso',
+                'success'
+            );
 
             setHasChanges(false);
             onSave();
             onClose();
-        } catch (error: any) {
+        } catch (error) {
             if (error instanceof ZodError) {
                 const mappedErrors: FormErrors = {};
                 for (const issue of error.issues) {
@@ -321,19 +438,18 @@ export default function ProfessorModal({
                 }
                 setErrors((prev) => ({ ...prev, ...mappedErrors }));
                 onShowToast('Corrija os campos destacados e tente novamente.', 'error');
-            } else if (error.message?.includes('CONFLICT')) {
+            } else if ((error as Error).message?.includes('CONFLICT')) {
                 onShowToast(
                     'Este registro foi atualizado em paralelo. Recarregue os dados ou tente mesclar manualmente.',
                     'error'
                 );
             } else {
-                onShowToast('Não foi possível concluir a operação. Tente novamente.', 'error');
+                onShowToast('Nao foi possivel concluir a operacao. Tente novamente.', 'error');
             }
         } finally {
             setLoading(false);
         }
     };
-
     const handleClose = () => {
         if (hasChanges && !loading) {
             setShowCloseConfirm(true);
@@ -603,52 +719,49 @@ export default function ProfessorModal({
                                 <div className="space-y-4">
                                     {/* Avatar */}
                                     <div>
-                                        <label
-                                            htmlFor="avatarUrl"
-                                            className="block text-sm font-medium text-gray-700 mb-1"
-                                        >
-                                            URL do Avatar *
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Foto do avatar
                                         </label>
-                                        <input
-                                            id="avatarUrl"
-                                            type="url"
-                                            value={formData.avatarUrl}
-                                            onChange={(e) => handleAvatarUrlChange(e.target.value)}
-                                            className={`block w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm ${
-                                                errors.avatarUrl
-                                                    ? 'border-red-300'
-                                                    : 'border-gray-300'
-                                            }`}
-                                            placeholder="https://exemplo.com/avatar.jpg"
-                                        />
-                                        {errors.avatarUrl && (
-                                            <p className="mt-1 text-sm text-red-600">
-                                                {errors.avatarUrl}
-                                            </p>
-                                        )}
-
-                                        {/* Preview do avatar */}
-                                        {formData.avatarUrl && (
-                                            <div className="mt-3 flex justify-center">
-                                                <div className="relative">
-                                                    {avatarLoading && (
-                                                        <div className="absolute inset-0 bg-gray-200 rounded-full flex items-center justify-center">
-                                                            <i className="ri-loader-4-line animate-spin text-gray-400"></i>
-                                                        </div>
+                                        <div className="flex items-center gap-4">
+                                            <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-gray-200 bg-gray-50">
+                                                {avatarLoading && (
+                                                    <div className="absolute inset-0 bg-gray-200 rounded-full flex items-center justify-center">
+                                                        <i className="ri-loader-4-line animate-spin text-gray-400"></i>
+                                                    </div>
+                                                )}
+                                                <img
+                                                    src={resolveAssetUrl(
+                                                        avatarPreview ?? formData.avatarUrl,
+                                                        `https://ui-avatars.com/api/?name=${encodeURIComponent(formData.fullName ?? 'Professor')}&background=f3f4f6&color=374151`
                                                     )}
-                                                    <img
-                                                        src={formData.avatarUrl}
-                                                        alt="Preview"
-                                                        className="w-20 h-20 rounded-full object-cover border-2 border-gray-200"
-                                                        onError={(e) => {
-                                                            const target =
-                                                                e.target as HTMLImageElement;
-                                                            target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(formData.fullName || 'Professor')}&background=f3f4f6&color=374151`;
-                                                        }}
-                                                    />
-                                                </div>
+                                                    alt="Avatar"
+                                                    className="w-full h-full object-cover"
+                                                    onError={resolverErrorImage}
+                                                />
                                             </div>
-                                        )}
+                                            <div className="flex flex-col gap-2">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => fileInputRef.current?.click()}
+                                                    className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors cursor-pointer"
+                                                >
+                                                    Escolher imagem
+                                                </button>
+                                                <p className="text-xs text-gray-500">
+                                                    JPG/PNG/WebP, máx. 5MB. A imagem será reduzida
+                                                    para 500px.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <input
+                                            ref={fileInputRef}
+                                            type="file"
+                                            accept="image/png,image/jpeg,image/webp"
+                                            className="hidden"
+                                            onChange={(e) =>
+                                                handleAvatarFileChange(e.target.files?.[0])
+                                            }
+                                        />
                                     </div>
 
                                     {/* Email */}
@@ -795,6 +908,55 @@ export default function ProfessorModal({
                 onConfirm={confirmClose}
                 onCancel={() => setShowCloseConfirm(false)}
             />
+
+            {isCropperOpen && cropImage && (
+                <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50">
+                    <div className="bg-white rounded-lg shadow-xl w-full max-w-3xl p-4">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                            Ajuste a imagem
+                        </h3>
+                        <div className="relative w-full h-80 bg-gray-100 rounded-lg overflow-hidden">
+                            <Cropper
+                                image={cropImage}
+                                crop={crop}
+                                zoom={zoom}
+                                aspect={1}
+                                onCropChange={setCrop}
+                                onZoomChange={setZoom}
+                                onCropComplete={onCropComplete}
+                            />
+                        </div>
+                        <div className="mt-4 flex items-center gap-4">
+                            <label className="text-sm text-gray-700">Zoom</label>
+                            <input
+                                type="range"
+                                min={1}
+                                max={3}
+                                step={0.1}
+                                value={zoom}
+                                onChange={(e) => setZoom(Number(e.target.value))}
+                                className="flex-1"
+                            />
+                        </div>
+                        <div className="mt-6 flex justify-end gap-3">
+                            <button
+                                type="button"
+                                onClick={resetCropper}
+                                className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                type="button"
+                                onClick={confirmCrop}
+                                className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors cursor-pointer"
+                            >
+                                Usar imagem
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

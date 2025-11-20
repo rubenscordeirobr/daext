@@ -1,4 +1,8 @@
 import Fastify from 'fastify';
+import fastifyMultipart from '@fastify/multipart';
+import fastifyStatic from '@fastify/static';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 import cors from '@fastify/cors';
 
 import type {
@@ -27,6 +31,9 @@ const fastify = Fastify({
     logger: true,
 });
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 // Register CORS to allow requests from the web dev server during development.
 // Adjust the allowed origins as needed for production.
 fastify.register(cors, {
@@ -47,6 +54,19 @@ fastify.register(cors, {
         else callback(new Error('Not allowed by CORS'), false);
     },
     methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+});
+
+fastify.register(fastifyMultipart, {
+    limits: {
+        fileSize: 5 * 1024 * 1024, // 5MB
+    },
+});
+
+fastify.register(fastifyStatic, {
+    // Works in both dev (src) and build (dist): ../public/assets from index file.
+    root: fileURLToPath(new URL('../public/assets', import.meta.url)),
+    prefix: '/assets/',
+    decorateReply: false,
 });
 
 const newsStore = new JsonStore<NewsArticle>(new URL('../data/news/news.json', import.meta.url));

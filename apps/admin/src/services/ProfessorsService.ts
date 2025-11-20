@@ -64,6 +64,10 @@ class ProfessorsService {
         return this.create(duplicatePayload);
     }
 
+    uploadAvatar(id: string, file: Blob): Promise<Professor> {
+        return client.uploadAvatar(id, file);
+    }
+
     async getResearchAreasSuggestions(): Promise<string[]> {
         const professors = await client.list();
         const suggestions = new Set<string>();

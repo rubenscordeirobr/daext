@@ -75,6 +75,19 @@ export class ProfessorsClient extends BaseClient {
             method: 'DELETE',
         });
     }
+
+    async uploadAvatar(id: EntityId, file: Blob): Promise<Professor> {
+        const formData = new FormData();
+        formData.append('file', file, 'avatar.webp');
+
+        const response = await this.request<unknown>(`/professors/${id}/avatar`, {
+            method: 'POST',
+            body: formData,
+            headers: {}, // ensure default JSON header is cleared
+        });
+
+        return professorSchema.parse(response);
+    }
 }
 
 export const professorClient = new ProfessorsClient({

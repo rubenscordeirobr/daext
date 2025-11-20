@@ -63,3 +63,7 @@ export function createProfessor(data: CreateProfessorInput): Professor {
         updatedAt: data.updatedAt ?? now,
     });
 }
+
+export function buildProfessorAvatarUrl(id: EntityId): string {
+    return `/assets/professors/${id}/avatar.webp`;
+}

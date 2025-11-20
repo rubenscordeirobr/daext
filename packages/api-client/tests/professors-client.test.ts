@@ -71,12 +71,27 @@ class ProfessorsTestServer {
 
         if (match && match[1]) {
             const id = decodeURIComponent(match[1]);
+            const [profId, action] = id.split('/');
+
+            if (req.method === 'POST' && action === 'avatar') {
+                const existing = this.store.get(profId);
+                if (!existing) {
+                    return this.sendJson(res, 404, { message: 'Professor not found.' });
+                }
+                const updated = {
+                    ...existing,
+                    avatarUrl: `/assets/professors/${profId}/avatar.webp`,
+                    updatedAt: new Date().toISOString(),
+                };
+                this.store.set(profId, updated);
+                return this.sendJson(res, 200, updated);
+            }
 
             if (req.method === 'GET') {
                 if (id === 'invalid-payload') {
                     return this.sendJson(res, 200, { id: 'invalid-payload', fullName: 'Only id' });
                 }
-                const existing = this.store.get(id);
+                const existing = this.store.get(profId);
                 if (!existing) {
                     return this.sendJson(res, 404, { message: 'Professor not found.' });
                 }
@@ -84,11 +99,11 @@ class ProfessorsTestServer {
             }
 
             if (req.method === 'PATCH') {
-                return this.handlePatch(req, res, id);
+                return this.handlePatch(req, res, profId);
             }
 
             if (req.method === 'DELETE') {
-                this.store.delete(id);
+                this.store.delete(profId);
                 res.statusCode = 204;
                 res.end();
                 return;
@@ -235,6 +250,23 @@ describe('ProfessorsClient (integration)', () => {
         await assert.rejects(client.getById(created.id), (error) => {
             return error instanceof HttpError && error.status === 404;
         });
+    });
+
+    it('uploads an avatar and returns updated professor', async () => {
+        const payload: ProfessorProfileDraft = {
+            fullName: 'Avatar User',
+            academicTitle: 'Mestre',
+            area: AcademicArea.Math,
+            specialization: 'Algebra',
+            researchAreas: ['Algebra'],
+            bio: 'Testing avatar upload.',
+        };
+
+        const created = await client.create(payload);
+        const blob = new Blob(['avatar-bytes'], { type: 'image/png' });
+
+        const updated = await client.uploadAvatar(created.id, blob);
+        assert.equal(updated.avatarUrl, `/assets/professors/${created.id}/avatar.webp`);
     });
 
     it('rejects invalid payloads before sending requests', async () => {
