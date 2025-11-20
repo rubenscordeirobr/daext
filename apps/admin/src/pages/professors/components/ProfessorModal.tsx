@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import type { Professor, AcademicTitle, AcademicArea } from '../../../types/professor';
 import { AcademicAreaList, AcademicArea as AcademicAreaValue } from '../../../types/professor';
+import { professorProfileSchema } from '@daext/domain';
+import { ZodError } from 'zod';
 import { professorsService } from '../../../services/ProfessorsService';
 import ConfirmDialog from '../../../components/base/ConfirmDialog';
 
@@ -162,30 +164,11 @@ export default function ProfessorModal({
     };
 
     const validateForm = (): boolean => {
-        const newErrors: FormErrors = {};
-
-        // Nome completo
-        if (!formData.fullName.trim()) {
-            newErrors.fullName = 'Nome completo é obrigatório';
-        } else if (formData.fullName.trim().length < 4) {
-            newErrors.fullName = 'Nome deve ter pelo menos 4 caracteres';
-        } else if (formData.fullName.trim().length > 140) {
-            newErrors.fullName = 'Nome deve ter no máximo 140 caracteres';
-        }
-
-        // Área acadêmica
-        if (!formData.area) {
-            newErrors.area = 'Área acadêmica é obrigatória';
-        }
-
-        // Especialização
-        if (!formData.specialization.trim()) {
-            newErrors.specialization = 'Especialização é obrigatória';
-        }
+        const customErrors: FormErrors = {};
 
         // Email (opcional, mas se preenchido deve ser válido)
         if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-            newErrors.email = 'Informe um email válido';
+            customErrors.email = 'Informe um email válido';
         }
 
         // ORCID (opcional, mas se preenchido deve ser válido)
@@ -193,28 +176,33 @@ export default function ProfessorModal({
             formData.orcid &&
             !/^\d{4}-\d{4}-\d{4}-\d{3}[\dX]$/.test(formData.orcid.replace(/\s/g, ''))
         ) {
-            newErrors.orcid = 'Informe um ORCID no formato correto (0000-0000-0000-0000)';
+            customErrors.orcid = 'Informe um ORCID no formato correto (0000-0000-0000-0000)';
         }
 
-        // URL do Lattes (opcional, mas se preenchida deve ser válida)
-        if (formData.lattesUrl && !isAbsoluteUrl(formData.lattesUrl)) {
-            newErrors.lattesUrl = 'Informe uma URL válida';
-        }
-
-        // Avatar URL
-        if (!formData.avatarUrl.trim()) {
-            newErrors.avatarUrl = 'URL do avatar é obrigatória';
-        } else if (!isAbsoluteUrl(formData.avatarUrl) && !isRelativeAssetPath(formData.avatarUrl)) {
-            newErrors.avatarUrl = 'Informe uma URL válida';
-        }
-
-        // Bio
+        // Bio (max length é validado aqui; Zod cuida do min)
         if (formData.bio.length > 1500) {
-            newErrors.bio = 'Biografia deve ter no máximo 1500 caracteres';
+            customErrors.bio = 'Biografia deve ter no máximo 1500 caracteres';
         }
 
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+        const zodResult = professorProfileSchema.safeParse(formData);
+        if (zodResult.success && Object.keys(customErrors).length === 0) {
+            setErrors({});
+            return true;
+        }
+
+        const zodErrors: FormErrors = {};
+        if (!zodResult.success) {
+            for (const issue of zodResult.error.issues) {
+                const field = issue.path[0];
+                if (typeof field === 'string' && !zodErrors[field]) {
+                    zodErrors[field] = issue.message;
+                }
+            }
+        }
+
+        const mergedErrors = { ...zodErrors, ...customErrors };
+        setErrors(mergedErrors);
+        return false;
     };
 
     const handleInputChange = (field: keyof FormData, value: string | string[]) => {
@@ -323,7 +311,17 @@ export default function ProfessorModal({
             onSave();
             onClose();
         } catch (error: any) {
-            if (error.message.includes('CONFLICT')) {
+            if (error instanceof ZodError) {
+                const mappedErrors: FormErrors = {};
+                for (const issue of error.issues) {
+                    const field = issue.path[0];
+                    if (typeof field === 'string' && !mappedErrors[field]) {
+                        mappedErrors[field] = issue.message;
+                    }
+                }
+                setErrors((prev) => ({ ...prev, ...mappedErrors }));
+                onShowToast('Corrija os campos destacados e tente novamente.', 'error');
+            } else if (error.message?.includes('CONFLICT')) {
                 onShowToast(
                     'Este registro foi atualizado em paralelo. Recarregue os dados ou tente mesclar manualmente.',
                     'error'

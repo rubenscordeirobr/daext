@@ -96,6 +96,10 @@ export default function ProfessorTable({
     };
 
     const handleDeleteMultiple = () => {
+        if (selectedIds.length === 0) {
+            onShowToast('Selecione pelo menos um professor para excluir.', 'error');
+            return;
+        }
         setDeleteConfirm({
             isOpen: true,
             professor: null,
@@ -189,199 +193,219 @@ export default function ProfessorTable({
     }
 
     return (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-            {/* Ações em lote */}
-            {selectedIds.length > 0 && (
-                <div className="bg-primary-50 dark:bg-primary-900/20 border-b border-primary-200 dark:border-primary-900 px-6 py-3">
-                    <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-primary-800 dark:text-primary-400">
-                            {selectedIds.length} professor(es) selecionado(s)
-                        </span>
-                        <button
-                            onClick={handleDeleteMultiple}
-                            disabled={actionLoading === 'delete'}
-                            className="bg-red-600 dark:bg-red-700 hover:bg-red-700 dark:hover:bg-red-800 disabled:bg-red-400 dark:disabled:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer whitespace-nowrap"
-                        >
-                            {actionLoading === 'delete' ? (
-                                <>
-                                    <i className="ri-loader-4-line animate-spin mr-2"></i>
-                                    Excluindo...
-                                </>
-                            ) : (
-                                <>
-                                    <i className="ri-delete-bin-line mr-2"></i>
-                                    Excluir selecionados
-                                </>
-                            )}
-                        </button>
+        <>
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                {/* Ações em lote */}
+                {selectedIds.length > 0 && (
+                    <div className="bg-primary-50 dark:bg-primary-900/20 border-b border-primary-200 dark:border-primary-900 px-6 py-3">
+                        <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium text-primary-800 dark:text-primary-400">
+                                {selectedIds.length} professor(es) selecionado(s)
+                            </span>
+                            <button
+                                onClick={handleDeleteMultiple}
+                                disabled={actionLoading === 'delete'}
+                                className="bg-red-600 dark:bg-red-700 hover:bg-red-700 dark:hover:bg-red-800 disabled:bg-red-400 dark:disabled:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer whitespace-nowrap"
+                            >
+                                {actionLoading === 'delete' ? (
+                                    <>
+                                        <i className="ri-loader-4-line animate-spin mr-2"></i>
+                                        Excluindo...
+                                    </>
+                                ) : (
+                                    <>
+                                        <i className="ri-delete-bin-line mr-2"></i>
+                                        Excluir selecionados
+                                    </>
+                                )}
+                            </button>
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
 
-            {/* Tabela */}
-            <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                    <thead className="bg-gray-50 dark:bg-gray-900">
-                        <tr>
-                            <th className="px-6 py-3 text-left">
-                                <input
-                                    type="checkbox"
-                                    checked={isAllSelected}
-                                    ref={(el) => {
-                                        if (el) el.indeterminate = isIndeterminate;
-                                    }}
-                                    onChange={(e) => handleSelectAll(e.target.checked)}
-                                    className="w-4 h-4 text-primary-600 border-gray-300 dark:border-gray-600 rounded focus:ring-primary-500 cursor-pointer"
-                                />
-                            </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                Professor
-                            </th>
-                            <th
-                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-300"
-                                onClick={() => handleSort('fullName')}
-                            >
-                                <div className="flex items-center gap-1">
-                                    Nome
-                                    {sortBy === 'fullName' && (
-                                        <i
-                                            className={`ri-arrow-${sortDir === 'asc' ? 'up' : 'down'}-s-line text-primary-600 dark:text-primary-400`}
-                                        ></i>
-                                    )}
-                                </div>
-                            </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                Área
-                            </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                Email
-                            </th>
-                            <th
-                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-300"
-                                onClick={() => handleSort('updatedAt')}
-                            >
-                                <div className="flex items-center gap-1">
-                                    Atualizado em
-                                    {sortBy === 'updatedAt' && (
-                                        <i
-                                            className={`ri-arrow-${sortDir === 'asc' ? 'up' : 'down'}-s-line text-primary-600 dark:text-primary-400`}
-                                        ></i>
-                                    )}
-                                </div>
-                            </th>
-                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                Ações
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                        {professors.map((professor) => (
-                            <tr
-                                key={professor.id}
-                                className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                            >
-                                <td className="px-6 py-4">
+                {/* Tabela */}
+                <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead className="bg-gray-50 dark:bg-gray-900">
+                            <tr>
+                                <th className="px-6 py-3 text-left">
                                     <input
                                         type="checkbox"
-                                        checked={selectedIds.includes(professor.id)}
-                                        onChange={(e) =>
-                                            handleSelectOne(professor.id, e.target.checked)
-                                        }
+                                        checked={isAllSelected}
+                                        ref={(el) => {
+                                            if (el) el.indeterminate = isIndeterminate;
+                                        }}
+                                        onChange={(e) => handleSelectAll(e.target.checked)}
                                         className="w-4 h-4 text-primary-600 border-gray-300 dark:border-gray-600 rounded focus:ring-primary-500 cursor-pointer"
                                     />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <div className="flex items-center">
-                                        <img
-                                            src={professor.avatarUrl}
-                                            alt={professor.fullName}
-                                            className="w-10 h-10 rounded-full object-cover mr-3"
-                                            onError={(e) => {
-                                                const target = e.target as HTMLImageElement;
-                                                target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(professor.fullName)}&background=f3f4f6&color=374151`;
-                                            }}
+                                </th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    Professor
+                                </th>
+                                <th
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-300"
+                                    onClick={() => handleSort('fullName')}
+                                >
+                                    <div className="flex items-center gap-1">
+                                        Nome
+                                        {sortBy === 'fullName' && (
+                                            <i
+                                                className={`ri-arrow-${sortDir === 'asc' ? 'up' : 'down'}-s-line text-primary-600 dark:text-primary-400`}
+                                            ></i>
+                                        )}
+                                    </div>
+                                </th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    Área
+                                </th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    Email
+                                </th>
+                                <th
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-300"
+                                    onClick={() => handleSort('updatedAt')}
+                                >
+                                    <div className="flex items-center gap-1">
+                                        Atualizado em
+                                        {sortBy === 'updatedAt' && (
+                                            <i
+                                                className={`ri-arrow-${sortDir === 'asc' ? 'up' : 'down'}-s-line text-primary-600 dark:text-primary-400`}
+                                            ></i>
+                                        )}
+                                    </div>
+                                </th>
+                                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    Ações
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                            {professors.map((professor) => (
+                                <tr
+                                    key={professor.id}
+                                    className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                                >
+                                    <td className="px-6 py-4">
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedIds.includes(professor.id)}
+                                            onChange={(e) =>
+                                                handleSelectOne(professor.id, e.target.checked)
+                                            }
+                                            className="w-4 h-4 text-primary-600 border-gray-300 dark:border-gray-600 rounded focus:ring-primary-500 cursor-pointer"
                                         />
-                                        <div>
-                                            <div className="text-sm font-medium text-gray-900 dark:text-white">
-                                                {professor.academicTitle}
-                                            </div>
-                                            <div className="text-sm text-gray-500 dark:text-gray-400">
-                                                {professor.specialization}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center">
+                                            <img
+                                                src={professor.avatarUrl}
+                                                alt={professor.fullName}
+                                                className="w-10 h-10 rounded-full object-cover mr-3"
+                                                onError={(e) => {
+                                                    const target = e.target as HTMLImageElement;
+                                                    target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(professor.fullName)}&background=f3f4f6&color=374151`;
+                                                }}
+                                            />
+                                            <div>
+                                                <div className="text-sm font-medium text-gray-900 dark:text-white">
+                                                    {professor.academicTitle}
+                                                </div>
+                                                <div className="text-sm text-gray-500 dark:text-gray-400">
+                                                    {professor.specialization}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td className="px-6 py-4">
-                                    <div className="text-sm font-medium text-gray-900 dark:text-white">
-                                        {professor.fullName}
-                                    </div>
-                                </td>
-                                <td className="px-6 py-4">
-                                    <span
-                                        className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getAreaBadgeColor(professor.area)}`}
-                                    >
-                                        {getAreaLabel(professor.area)}
-                                    </span>
-                                </td>
-                                <td className="px-6 py-4">
-                                    {professor.email ? (
-                                        <a
-                                            href={`mailto:${professor.email}`}
-                                            className="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 cursor-pointer"
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <div className="text-sm font-medium text-gray-900 dark:text-white">
+                                            {professor.fullName}
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <span
+                                            className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getAreaBadgeColor(professor.area)}`}
                                         >
-                                            {professor.email}
-                                        </a>
-                                    ) : (
-                                        <span className="text-sm text-gray-400 dark:text-gray-600">
-                                            -
+                                            {getAreaLabel(professor.area)}
                                         </span>
-                                    )}
-                                </td>
-                                <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
-                                    {formatDate(professor.updatedAt)}
-                                </td>
-                                <td className="px-6 py-4 text-right">
-                                    <div className="flex items-center justify-end gap-2">
-                                        <button
-                                            onClick={() => onView(professor)}
-                                            className="w-8 h-8 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-300 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors cursor-pointer"
-                                            title="Visualizar"
-                                        >
-                                            <i className="ri-eye-line"></i>
-                                        </button>
-                                        <button
-                                            onClick={() => onEdit(professor)}
-                                            className="w-8 h-8 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-300 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors cursor-pointer"
-                                            title="Editar"
-                                        >
-                                            <i className="ri-edit-line"></i>
-                                        </button>
-                                        <button
-                                            onClick={() => handleDuplicate(professor)}
-                                            disabled={actionLoading === `duplicate-${professor.id}`}
-                                            className="w-8 h-8 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-300 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors cursor-pointer disabled:opacity-50"
-                                            title="Duplicar"
-                                        >
-                                            {actionLoading === `duplicate-${professor.id}` ? (
-                                                <i className="ri-loader-4-line animate-spin"></i>
-                                            ) : (
-                                                <i className="ri-file-copy-line"></i>
-                                            )}
-                                        </button>
-                                        <button
-                                            onClick={() => handleDelete(professor)}
-                                            className="w-8 h-8 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors cursor-pointer"
-                                            title="Excluir"
-                                        >
-                                            <i className="ri-delete-bin-line"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {professor.email ? (
+                                            <a
+                                                href={`mailto:${professor.email}`}
+                                                className="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 cursor-pointer"
+                                            >
+                                                {professor.email}
+                                            </a>
+                                        ) : (
+                                            <span className="text-sm text-gray-400 dark:text-gray-600">
+                                                -
+                                            </span>
+                                        )}
+                                    </td>
+                                    <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
+                                        {formatDate(professor.updatedAt)}
+                                    </td>
+                                    <td className="px-6 py-4 text-right">
+                                        <div className="flex items-center justify-end gap-2">
+                                            <button
+                                                onClick={() => onView(professor)}
+                                                className="w-8 h-8 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-300 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors cursor-pointer"
+                                                title="Visualizar"
+                                            >
+                                                <i className="ri-eye-line"></i>
+                                            </button>
+                                            <button
+                                                onClick={() => onEdit(professor)}
+                                                className="w-8 h-8 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-300 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors cursor-pointer"
+                                                title="Editar"
+                                            >
+                                                <i className="ri-edit-line"></i>
+                                            </button>
+                                            <button
+                                                onClick={() => handleDuplicate(professor)}
+                                                disabled={
+                                                    actionLoading === `duplicate-${professor.id}`
+                                                }
+                                                className="w-8 h-8 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-300 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+                                                title="Duplicar"
+                                            >
+                                                {actionLoading === `duplicate-${professor.id}` ? (
+                                                    <i className="ri-loader-4-line animate-spin"></i>
+                                                ) : (
+                                                    <i className="ri-file-copy-line"></i>
+                                                )}
+                                            </button>
+                                            <button
+                                                onClick={() => handleDelete(professor)}
+                                                className="w-8 h-8 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors cursor-pointer"
+                                                title="Excluir"
+                                            >
+                                                <i className="ri-delete-bin-line"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+            <ConfirmDialog
+                isOpen={deleteConfirm.isOpen}
+                title="Confirmar exclus�o"
+                message={
+                    deleteConfirm.isMultiple
+                        ? `Deseja excluir ${selectedIds.length} professor(es) selecionado(s)?`
+                        : `Deseja excluir o professor "${deleteConfirm.professor?.fullName}"?`
+                }
+                confirmText="Excluir"
+                cancelText="Cancelar"
+                onConfirm={confirmDelete}
+                onCancel={() =>
+                    setDeleteConfirm({ isOpen: false, professor: null, isMultiple: false })
+                }
+                type="danger"
+            />
+        </>
     );
 }
