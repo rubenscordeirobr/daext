@@ -66,4 +66,19 @@ export class ProfessorsService {
         }
         await this.repository.delete(id);
     }
+
+    async updateAvatar(id: EntityId, avatarUrl: string): Promise<Professor> {
+        const existing = await this.repository.findById(id);
+        if (!existing) {
+            throw new NotFoundError(`Professor ${id} not found.`);
+        }
+
+        const updated: Professor = {
+            ...existing,
+            avatarUrl,
+            updatedAt: new Date().toISOString(),
+        };
+
+        return this.repository.update(id, updated);
+    }
 }
