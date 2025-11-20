@@ -1,8 +1,8 @@
-import type { EntityId, Professor } from '@daext/domain';
+import type { AcademicArea, EntityId, Professor } from '@daext/domain';
 
 export interface ListProfessorsFilter {
     search?: string;
-    area?: string;
+    area?: AcademicArea;
 }
 
 export interface ProfessorsRepository {

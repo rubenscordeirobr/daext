@@ -1,6 +1,11 @@
 import { randomUUID } from 'node:crypto';
 
-import type { EntityId, Professor, ProfessorProfileDraft } from '@daext/domain';
+import type {
+    EntityId,
+    Professor,
+    ProfessorProfileDraft,
+    ProfessorProfilePatch,
+} from '@daext/domain';
 import { createProfessor } from '@daext/domain';
 
 import { NotFoundError } from '../../core/errors.js';
@@ -38,7 +43,7 @@ export class ProfessorsService {
         return this.repository.create(professor);
     }
 
-    async update(id: EntityId, patch: Partial<ProfessorProfileDraft>): Promise<Professor> {
+    async update(id: EntityId, patch: ProfessorProfilePatch): Promise<Professor> {
         const existing = await this.repository.findById(id);
         if (!existing) {
             throw new NotFoundError(`Professor ${id} not found.`);

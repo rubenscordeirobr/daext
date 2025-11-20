@@ -1,8 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 
-import type { ProfessorProfileDraft } from '@daext/domain';
-import { AcademicArea } from '@daext/domain';
+import { AcademicArea, professorProfilePatchSchema, professorProfileSchema } from '@daext/domain';
 
 import { NotFoundError } from '../../core/errors.js';
 import type { ProfessorsService } from './professors.service.js';
@@ -13,31 +12,6 @@ const listQuerySchema = z.object({
     page: z.coerce.number().int().min(1).optional(),
     pageSize: z.coerce.number().int().min(1).max(100).optional(),
 });
-
-const assetUrlSchema = z
-    .string()
-    .trim()
-    .min(1)
-    .refine(
-        (value) => value.startsWith('/') || /^https?:\/\//i.test(value),
-        'Informe uma URL absoluta ou caminho relativo iniciado por /.'
-    );
-
-const profileSchema = z.object({
-    fullName: z.string().min(3),
-    academicTitle: z.string().min(2),
-    area: z.nativeEnum(AcademicArea),
-    specialization: z.string().min(2),
-    orcid: z.string().optional(),
-    researchAreas: z.array(z.string()),
-    bio: z.string().min(10),
-    email: z.string().optional(),
-    phone: z.string().optional(),
-    lattesUrl: z.string().url().optional(),
-    avatarUrl: assetUrlSchema.optional(),
-});
-
-const profilePatchSchema = profileSchema.partial();
 
 export interface RegisterProfessorsRoutesOptions {
     service: ProfessorsService;
@@ -64,14 +38,14 @@ export function registerProfessorsRoutes(
     });
 
     fastify.post('/professors', async (request, reply) => {
-        const body: ProfessorProfileDraft = profileSchema.parse(request.body);
+        const body = professorProfileSchema.parse(request.body);
         const created = await service.create(body);
         return reply.code(201).send(created);
     });
 
     fastify.patch('/professors/:id', async (request, reply) => {
         const params = z.object({ id: z.string() }).parse(request.params);
-        const body = profilePatchSchema.parse(request.body);
+        const body = professorProfilePatchSchema.parse(request.body);
 
         try {
             const updated = await service.update(params.id, body);
