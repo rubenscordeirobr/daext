@@ -2,6 +2,7 @@ export interface ApiClientOptions {
     baseUrl: string;
     fetchImpl?: typeof fetch;
     defaultHeaders?: HeadersInit;
+    debug?: boolean;
 }
 
 export type QueryValue = string | number | boolean | null | undefined;

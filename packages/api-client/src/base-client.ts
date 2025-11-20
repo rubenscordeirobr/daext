@@ -9,6 +9,7 @@ export abstract class BaseClient {
     protected readonly baseUrl: string;
     private readonly defaultHeaders: HeadersInit;
     private readonly fetchImpl: typeof fetch;
+    private readonly debug: boolean;
 
     constructor(options: ApiClientOptions) {
         const fetchImpl = options.fetchImpl ?? globalThis.fetch;
@@ -20,6 +21,9 @@ export abstract class BaseClient {
 
         this.baseUrl = options.baseUrl.replace(/\/+$/, '');
         this.defaultHeaders = options.defaultHeaders ?? defaultHeaders;
+        const isLocalhost =
+            this.baseUrl.includes('localhost') || this.baseUrl.includes('127.0.0.1');
+        this.debug = options.debug ?? isLocalhost;
         // Some native fetch implementations require the correct `this` binding
         // (calling an unbound native function can cause "Illegal invocation").
         // If the chosen implementation is the global fetch, bind it to globalThis.
@@ -32,20 +36,34 @@ export abstract class BaseClient {
         options: RequestOptions = {}
     ): Promise<TResponse> {
         const url = buildUrl(this.baseUrl, path, options.query);
+        const method = options.method ?? 'GET';
 
         try {
             const headers = mergeHeaders(this.defaultHeaders, options.headers);
-            const response = await this.fetchImpl(url, {
+            const requestInit: RequestInit = {
                 ...options,
                 headers: headers,
-            });
+            };
+
+            // Avoid sending JSON content-type when there's no body (Fastify rejects empty JSON).
+            if (!options.body && requestInit.headers instanceof Headers) {
+                requestInit.headers.delete('Content-Type');
+            }
+
+            if (this.debug) {
+                logRequest(url, path, method, headers, options.body);
+            }
+
+            const response = await this.fetchImpl(url, requestInit);
 
             if (!response.ok) {
                 const text = await safeReadText(response);
-                throw new HttpError(text || response.statusText, url, response.status, {
+                const error = new HttpError(text || response.statusText, url, response.status, {
                     url,
-                    method: options.method ?? 'GET',
+                    method,
                 });
+                logHttpError(error, path, method, text, this.debug, options.body);
+                throw error;
             }
 
             if (response.status === 204) {
@@ -62,7 +80,7 @@ export abstract class BaseClient {
 
             throw new HttpError(message, url, -1, {
                 url,
-                method: options.method ?? 'GET',
+                method,
             });
         }
     }
@@ -102,5 +120,74 @@ async function safeReadText(response: Response): Promise<string> {
         return await response.text();
     } catch {
         return '';
+    }
+}
+
+function logRequest(
+    url: string,
+    path: string,
+    method: string,
+    headers: HeadersInit,
+    body: BodyInit | null | undefined
+): void {
+    // eslint-disable-next-line no-console
+    console.debug('[api-client] request', {
+        path,
+        method,
+        url,
+        headers,
+        body: body && typeof body !== 'string' ? '<non-string body>' : body,
+        curl: buildCurl(url, method, headers, body),
+    });
+}
+
+function logHttpError(
+    error: HttpError,
+    path: string,
+    method: string,
+    responseText: string,
+    debug: boolean,
+    body: BodyInit | null | undefined
+): void {
+    const payload =
+        body && typeof body === 'string' && isJson(body) && debug ? JSON.parse(body) : undefined;
+    // eslint-disable-next-line no-console
+    console.error('[api-client] HTTP error', {
+        path,
+        method,
+        status: error.status,
+        message: error.message,
+        response: debug ? responseText : undefined,
+        requestBody: payload,
+        curl: debug ? buildCurl(error.url, method, error.metadata?.headers ?? {}, body) : undefined,
+    });
+}
+
+function buildCurl(
+    url: string,
+    method: string,
+    headers: HeadersInit,
+    body: BodyInit | null | undefined
+): string {
+    const headerPairs: string[] =
+        headers instanceof Headers
+            ? Array.from(headers.entries()).map(([k, v]) => `-H "${k}: ${v}"`)
+            : Object.entries(headers).map(([k, v]) => `-H "${k}: ${v}"`);
+
+    const parts = [`curl -X ${method} "${url}"`, ...headerPairs];
+
+    if (body && typeof body === 'string') {
+        parts.push(`--data '${body.replace(/'/g, "'\\''")}'`);
+    }
+
+    return parts.join(' ');
+}
+
+function isJson(text: string): boolean {
+    try {
+        JSON.parse(text);
+        return true;
+    } catch {
+        return false;
     }
 }
