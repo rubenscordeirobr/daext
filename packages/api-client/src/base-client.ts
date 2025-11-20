@@ -46,8 +46,15 @@ export abstract class BaseClient {
             };
 
             // Avoid sending JSON content-type when there's no body (Fastify rejects empty JSON).
-            if (!options.body && requestInit.headers instanceof Headers) {
-                requestInit.headers.delete('Content-Type');
+            if (requestInit.headers instanceof Headers) {
+                if (!options.body) {
+                    requestInit.headers.delete('Content-Type');
+                }
+                const isFormData =
+                    typeof FormData !== 'undefined' && options.body instanceof FormData;
+                if (isFormData) {
+                    requestInit.headers.delete('Content-Type');
+                }
             }
 
             if (this.debug) {
